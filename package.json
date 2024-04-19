@@ -1,0 +1,233 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "yabai",
+  "title": "yabai",
+  "description": "yabai",
+  "icon": "command-icon.png",
+  "author": "logyxiao",
+  "categories": [
+    "System"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "run-command",
+      "title": "Run Yabai Command",
+      "description": "Run Yabai command",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "command",
+          "placeholder": "Command",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "zoom-fullscreen",
+      "title": "zoom-fullscreen",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "focus-up",
+      "title": "focus-up",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "focus-down",
+      "title": "focus-down",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "focus-left",
+      "title": "focus-left",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "focus-right",
+      "title": "focus-right",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "swap-up",
+      "title": "swap-up",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "swap-down",
+      "title": "swap-down",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "swap-left",
+      "title": "swap-left",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "swap-right",
+      "title": "swap-right",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "start",
+      "title": "Start Yabai",
+      "description": "This command will start Yabai using `yabai --start-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "stop",
+      "title": "Stop Yabai",
+      "description": "This command will stop Yabai using `yabai --stop-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "rotate",
+      "title": "Rotate",
+      "description": "Rotate the tree 90 degrees clockwise.",
+      "mode": "no-view"
+    },
+    {
+      "name": "balance",
+      "title": "Balance",
+      "description": "Balance the windows.",
+      "mode": "no-view"
+    },
+    {
+      "name": "spaceFocus-1",
+      "title": "spaceFocus 1",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },
+    {
+      "name": "spaceFocus-2",
+      "title": "spaceFocus 2",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "spaceFocus-3",
+      "title": "spaceFocus 3",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "spaceFocus-4",
+      "title": "spaceFocus 4",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "spaceFocus-5",
+      "title": "spaceFocus 5",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "spaceFocus-6",
+      "title": "spaceFocus 6",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "spaceFocus-7",
+      "title": "spaceFocus 7",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "spaceFocus-8",
+      "title": "spaceFocus 8",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "spaceFocus-9",
+      "title": "spaceFocus 9",
+      "description": "聚焦到对应空间.",
+      "mode": "no-view"
+    },
+    {
+      "name": "tospaceFocus-1",
+      "title": "tospaceFocus 1",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    },
+    {
+      "name": "tospaceFocus-2",
+      "title": "tospaceFocus 2",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "tospaceFocus-3",
+      "title": "tospaceFocus 3",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "tospaceFocus-4",
+      "title": "tospaceFocus 4",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "tospaceFocus-5",
+      "title": "tospaceFocus 5",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "tospaceFocus-6",
+      "title": "tospaceFocus 6",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "tospaceFocus-7",
+      "title": "tospaceFocus 7",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "tospaceFocus-8",
+      "title": "tospaceFocus 8",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    },{
+      "name": "tospaceFocus-9",
+      "title": "tospaceFocus 9",
+      "description": "将窗口转移到对应空间.",
+      "mode": "no-view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "yabaiExecutablePath",
+      "description": "Path to the yabai executable.",
+      "type": "textfield",
+      "required": false,
+      "default": "/usr/local/bin/yabai",
+      "title": "Path to the yabai executable",
+      "placeholder": "/usr/local/bin/yabai",
+      "label": "By default, the extension will use the yabai executable from the homebrew installation. If you have yabai installed in a different location, you can specify it here."
+    } 
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.71.4",
+    "@raycast/utils": "^1.10.0",
+    "execa": "^7.1.1"
+  },
+ 
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.6",
+    "@types/node": "20.8.10",
+    "@types/react": "18.2.27",
+    "eslint": "^8.51.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
