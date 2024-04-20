@@ -50,3 +50,10 @@ alt - F : yabai -m window --space next && yabai -m space --focus next
 yabai -m space --create
 
 yabai -m space --destroy
+
+#  移动窗口到上/下一个空间
+yabai -m window --space prev
+yabai -m window --space next
+
+# 移动窗口到左/右边的显示器
+yabai -m window --display recent

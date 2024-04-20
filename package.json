@@ -86,13 +86,25 @@
     },
     {
       "name": "create",
-      "title": "Yabai create space",
+      "title": "create space",
       "description": "This command will stop Yabai using `yabai --stop-service`.",
       "mode": "no-view"
     },
     {
       "name": "destroy",
-      "title": "Yabai destroy space",
+      "title": "destroy space",
+      "description": "This command will stop Yabai using `yabai --stop-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "mWinPrev",
+      "title": "move window to previous space",
+      "description": "This command will stop Yabai using `yabai --stop-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "mWinNext",
+      "title": "move window to next space",
       "description": "This command will stop Yabai using `yabai --stop-service`.",
       "mode": "no-view"
     },
