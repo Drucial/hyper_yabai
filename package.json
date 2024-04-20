@@ -85,6 +85,18 @@
       "mode": "no-view"
     },
     {
+      "name": "create",
+      "title": "Yabai create space",
+      "description": "This command will stop Yabai using `yabai --stop-service`.",
+      "mode": "no-view"
+    },
+    {
+      "name": "destroy",
+      "title": "Yabai destroy space",
+      "description": "This command will stop Yabai using `yabai --stop-service`.",
+      "mode": "no-view"
+    },
+    {
       "name": "stop",
       "title": "Stop Yabai",
       "description": "This command will stop Yabai using `yabai --stop-service`.",

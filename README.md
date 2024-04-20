@@ -45,3 +45,8 @@ alt - A : yabai -m window --space prev && yabai -m space --focus prev
 alt - right : yabai -m window --space next && yabai -m space --focus next
 
 alt - F : yabai -m window --space next && yabai -m space --focus next
+
+# 创建和销毁空间
+yabai -m space --create
+
+yabai -m space --destroy
