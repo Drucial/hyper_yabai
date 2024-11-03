@@ -14,6 +14,7 @@ export async function tospaceFocus(index: 1 |2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ) {
 
     showHUD(`Switched window to space ${index}`);
   } catch (error) {
+    console.log(error);
     showFailureToast(error, {
       title: `Failed to spaceFocus space in the ${index} . Make sure Yabai is installed and running.`,
     });

@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "yabai",
-  "title": "yabai",
-  "description": "yabai",
+  "title": "Yabai Window Manager",
+  "description": "Control Yabai window management from Raycast. Default shortcuts use Option(⌥) key:\n\n• Window Focus: ⌥ + [h,j,k,l]\n• Window Movement: ⌥⇧ + [h,j,k,l]\n• Space Focus: ⌥ + [1-9]\n• Move to Space: ⌥⇧ + [1-9]\n• Layout Controls: ⌥ + [f,b,r]\n\nTo customize shortcuts:\n1. Open Raycast Preferences (⌘,)\n2. Go to Extensions > Yabai\n3. Click any command to modify its shortcut",
   "icon": "command-icon.png",
   "author": "logyxiao",
   "categories": [
@@ -11,240 +11,314 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "run-command",
-      "title": "Run Yabai Command",
-      "description": "Run Yabai command",
+      "name": "start",
+      "title": "Start Yabai",
+      "description": "Start the Yabai window management service",
       "mode": "no-view",
+      "keywords": ["yabai", "service", "start"]
+    },
+    {
+      "name": "stop",
+      "title": "Stop Yabai",
+      "description": "Stop the Yabai window management service",
+      "mode": "no-view",
+      "keywords": ["yabai", "service", "stop"]
+    },
+    {
+      "name": "run-command",
+      "title": "Run Custom Yabai Command",
+      "description": "Execute a custom Yabai command",
+      "mode": "no-view",
+      "keywords": ["yabai", "custom", "command", "execute"],
       "arguments": [
         {
           "name": "command",
-          "placeholder": "Command",
+          "placeholder": "Enter Yabai command",
           "type": "text",
           "required": false
         }
       ]
     },
-    {
-      "name": "zoom-fullscreen",
-      "title": "zoom-fullscreen",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
-    },
+
     {
       "name": "focus-up",
-      "title": "focus-up",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
+      "title": "Focus Window Up",
+      "description": "Focus the window above the current window (⌥k)",
+      "mode": "no-view",
+      "keywords": ["window", "focus", "up", "north"],
+      "shortcut": "alt k"
     },
     {
       "name": "focus-down",
-      "title": "focus-down",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
+      "title": "Focus Window Down",
+      "description": "Focus the window below the current window (⌥j)",
+      "mode": "no-view",
+      "keywords": ["window", "focus", "down", "south"],
+      "shortcut": "alt j"
     },
     {
       "name": "focus-left",
-      "title": "focus-left",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
+      "title": "Focus Window Left",
+      "description": "Focus the window to the left (⌥h)",
+      "mode": "no-view",
+      "keywords": ["window", "focus", "left", "west"],
+      "shortcut": "alt h"
     },
     {
       "name": "focus-right",
-      "title": "focus-right",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
+      "title": "Focus Window Right",
+      "description": "Focus the window to the right (⌥l)",
+      "mode": "no-view",
+      "keywords": ["window", "focus", "right", "east"],
+      "shortcut": "alt l"
     },
+
     {
       "name": "swap-up",
-      "title": "swap-up",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
+      "title": "Move Window Up",
+      "description": "Swap the current window with the window above (⌥⇧k)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "swap", "up", "north"],
+      "shortcut": "alt shift k"
     },
     {
       "name": "swap-down",
-      "title": "swap-down",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
+      "title": "Move Window Down",
+      "description": "Swap the current window with the window below (⌥⇧j)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "swap", "down", "south"],
+      "shortcut": "alt shift j"
     },
     {
       "name": "swap-left",
-      "title": "swap-left",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
+      "title": "Move Window Left",
+      "description": "Swap the current window with the window to the left (⌥⇧h)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "swap", "left", "west"],
+      "shortcut": "alt shift h"
     },
     {
       "name": "swap-right",
-      "title": "swap-right",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
+      "title": "Move Window Right",
+      "description": "Swap the current window with the window to the right (⌥⇧l)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "swap", "right", "east"],
+      "shortcut": "alt shift l"
     },
+
     {
-      "name": "start",
-      "title": "Start Yabai",
-      "description": "This command will start Yabai using `yabai --start-service`.",
-      "mode": "no-view"
-    },
-    {
-      "name": "create",
-      "title": "create space",
-      "description": "This command will stop Yabai using `yabai --stop-service`.",
-      "mode": "no-view"
-    },
-    {
-      "name": "destroy",
-      "title": "destroy space",
-      "description": "This command will stop Yabai using `yabai --stop-service`.",
-      "mode": "no-view"
-    },
-    {
-      "name": "mWinPrev",
-      "title": "move window to previous space",
-      "description": "This command will stop Yabai using `yabai --stop-service`.",
-      "mode": "no-view"
-    },
-    {
-      "name": "mWinNext",
-      "title": "move window to next space",
-      "description": "This command will stop Yabai using `yabai --stop-service`.",
-      "mode": "no-view"
-    },
-    {
-      "name": "stop",
-      "title": "Stop Yabai",
-      "description": "This command will stop Yabai using `yabai --stop-service`.",
-      "mode": "no-view"
-    },
-    {
-      "name": "rotate",
-      "title": "Rotate",
-      "description": "Rotate the tree 90 degrees clockwise.",
-      "mode": "no-view"
+      "name": "zoom-fullscreen",
+      "title": "Toggle Fullscreen",
+      "description": "Toggle fullscreen mode for the current window (⌥f)",
+      "mode": "no-view",
+      "keywords": ["window", "fullscreen", "zoom", "toggle"],
+      "shortcut": "alt f"
     },
     {
       "name": "balance",
-      "title": "Balance",
-      "description": "Balance the windows.",
-      "mode": "no-view"
+      "title": "Balance Windows",
+      "description": "Equalize the size of all windows in the current space (⌥b)",
+      "mode": "no-view",
+      "keywords": ["window", "balance", "equalize", "resize"],
+      "shortcut": "alt b"
     },
     {
+      "name": "rotate",
+      "title": "Rotate Windows",
+      "description": "Rotate the window tree 90 degrees clockwise (⌥r)",
+      "mode": "no-view",
+      "keywords": ["window", "rotate", "arrangement"],
+      "shortcut": "alt r"
+    },
+
+    {
+      "name": "create",
+      "title": "Create Space",
+      "description": "Create a new space",
+      "mode": "no-view",
+      "keywords": ["space", "create", "new"]
+    },
+    {
+      "name": "destroy",
+      "title": "Destroy Space",
+      "description": "Remove the current space",
+      "mode": "no-view",
+      "keywords": ["space", "destroy", "remove"]
+    },
+
+    {
+      "name": "mWinPrev",
+      "title": "Move to Previous Space",
+      "description": "Move the current window to the previous space (⌥[)",
+      "mode": "no-view",
+      "keywords": ["space", "window", "move", "previous"],
+      "shortcut": "alt ["
+    },
+    {
+      "name": "mWinNext",
+      "title": "Move to Next Space",
+      "description": "Move the current window to the next space (⌥])",
+      "mode": "no-view",
+      "keywords": ["space", "window", "move", "next"],
+      "shortcut": "alt ]"
+    },
+
+    {
       "name": "spaceFocus-1",
-      "title": "spaceFocus 1",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 1",
+      "description": "Switch focus to space 1 (⌥1)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "1"],
+      "shortcut": "alt 1"
     },
     {
       "name": "spaceFocus-2",
-      "title": "spaceFocus 2",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 2",
+      "description": "Switch focus to space 2 (⌥2)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "2"],
+      "shortcut": "alt 2"
     },
     {
       "name": "spaceFocus-3",
-      "title": "spaceFocus 3",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 3",
+      "description": "Switch focus to space 3 (⌥3)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "3"],
+      "shortcut": "alt 3"
     },
     {
       "name": "spaceFocus-4",
-      "title": "spaceFocus 4",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 4",
+      "description": "Switch focus to space 4 (⌥4)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "4"],
+      "shortcut": "alt 4"
     },
     {
       "name": "spaceFocus-5",
-      "title": "spaceFocus 5",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 5",
+      "description": "Switch focus to space 5 (⌥5)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "5"],
+      "shortcut": "alt 5"
     },
     {
       "name": "spaceFocus-6",
-      "title": "spaceFocus 6",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 6",
+      "description": "Switch focus to space 6 (⌥6)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "6"],
+      "shortcut": "alt 6"
     },
     {
       "name": "spaceFocus-7",
-      "title": "spaceFocus 7",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 7",
+      "description": "Switch focus to space 7 (⌥7)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "7"],
+      "shortcut": "alt 7"
     },
     {
       "name": "spaceFocus-8",
-      "title": "spaceFocus 8",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 8",
+      "description": "Switch focus to space 8 (⌥8)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "8"],
+      "shortcut": "alt 8"
     },
     {
       "name": "spaceFocus-9",
-      "title": "spaceFocus 9",
-      "description": "聚焦到对应空间.",
-      "mode": "no-view"
+      "title": "Focus Space 9",
+      "description": "Switch focus to space 9 (⌥9)",
+      "mode": "no-view",
+      "keywords": ["space", "focus", "switch", "9"],
+      "shortcut": "alt 9"
     },
+
     {
       "name": "tospaceFocus-1",
-      "title": "tospaceFocus 1",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 1",
+      "description": "Move the current window to space 1 (⌥⇧1)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "1"],
+      "shortcut": "alt shift 1"
     },
     {
       "name": "tospaceFocus-2",
-      "title": "tospaceFocus 2",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 2",
+      "description": "Move the current window to space 2 (⌥⇧2)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "2"],
+      "shortcut": "alt shift 2"
     },
     {
       "name": "tospaceFocus-3",
-      "title": "tospaceFocus 3",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 3",
+      "description": "Move the current window to space 3 (⌥⇧3)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "3"],
+      "shortcut": "alt shift 3"
     },
     {
       "name": "tospaceFocus-4",
-      "title": "tospaceFocus 4",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 4",
+      "description": "Move the current window to space 4 (⌥⇧4)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "4"],
+      "shortcut": "alt shift 4"
     },
     {
       "name": "tospaceFocus-5",
-      "title": "tospaceFocus 5",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 5",
+      "description": "Move the current window to space 5 (⌥⇧5)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "5"],
+      "shortcut": "alt shift 5"
     },
     {
       "name": "tospaceFocus-6",
-      "title": "tospaceFocus 6",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 6",
+      "description": "Move the current window to space 6 (⌥⇧6)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "6"],
+      "shortcut": "alt shift 6"
     },
     {
       "name": "tospaceFocus-7",
-      "title": "tospaceFocus 7",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 7",
+      "description": "Move the current window to space 7 (⌥⇧7)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "7"],
+      "shortcut": "alt shift 7"
     },
     {
       "name": "tospaceFocus-8",
-      "title": "tospaceFocus 8",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 8",
+      "description": "Move the current window to space 8 (⌥⇧8)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "8"],
+      "shortcut": "alt shift 8"
     },
     {
       "name": "tospaceFocus-9",
-      "title": "tospaceFocus 9",
-      "description": "将窗口转移到对应空间.",
-      "mode": "no-view"
+      "title": "Move Window to Space 9",
+      "description": "Move the current window to space 9 (⌥⇧9)",
+      "mode": "no-view",
+      "keywords": ["window", "move", "space", "9"],
+      "shortcut": "alt shift 9"
     }
   ],
   "preferences": [
     {
       "name": "yabaiExecutablePath",
-      "description": "Path to the yabai executable.",
+      "title": "Yabai Executable Path",
+      "description": "Path to the yabai executable",
       "type": "textfield",
       "required": false,
       "default": "/usr/local/bin/yabai",
-      "title": "Path to the yabai executable",
       "placeholder": "/usr/local/bin/yabai",
-      "label": "By default, the extension will use the yabai executable from the homebrew installation. If you have yabai installed in a different location, you can specify it here."
+      "label": "Specify custom path if Yabai is not installed via Homebrew"
     }
   ],
   "dependencies": {

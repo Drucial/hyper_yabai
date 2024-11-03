@@ -1,59 +1,79 @@
+# Yabai Window Manager for Raycast
 
-# 聚焦窗口
-ctrl + cmd - h : yabai -m window --focus west
-ctrl + cmd - j : yabai -m window --focus south
-ctrl + cmd - k : yabai -m window --focus north
-ctrl + cmd - l : yabai -m window --focus east
+Control [Yabai](https://github.com/koekeishiya/yabai) window management directly from Raycast. This is a fork of [logyxiao/raycast_yabai](https://github.com/logyxiao/raycast_yabai).
 
-# 移动窗口
-ctrl + alt - h : yabai -m window --swap west
-ctrl + alt - j : yabai -m window --swap south
-ctrl + alt - k : yabai -m window --swap north
-ctrl + alt - l : yabai -m window --swap east
+## Prerequisites
 
-# 窗口切换最大化
-alt - x : yabai -m window --toggle zoom-fullscreen
+- [Yabai](https://github.com/koekeishiya/yabai) installed and configured
+- [Raycast](https://raycast.com/) installed
 
-# 切换到对应空间
-alt - 1 : yabai  -m space --focus 1
-alt - 2 : yabai  -m space --focus 2
-alt - 3 : yabai  -m space --focus 3
-alt - 4 : yabai  -m space --focus 4
-alt - 5 : yabai  -m space --focus 5
-alt - 6 : yabai  -m space --focus 6
-alt - 7 : yabai  -m space --focus 7
-alt - 8 : yabai  -m space --focus 8
-alt - 9 : yabai  -m space --focus 9
+## Installation
 
-# 将窗口移动到对应空间
-shift + alt - 1 :yabai -m window --space 1 --focus
-shift + alt - 2 :yabai -m window --space 2 --focus
-shift + alt - 3 :yabai -m window --space 3 --focus
-shift + alt - 4 :yabai -m window --space 4 --focus
-shift + alt - 5 :yabai -m window --space 5 --focus
-shift + alt - 6 :yabai -m window --space 6 --focus
-shift + alt - 7 :yabai -m window --space 7 --focus
-shift + alt - 8 :yabai -m window --space 8 --focus
-shift + alt - 9 :yabai -m window --space 9 --focus
+1. Open Raycast
+2. Search for "Store"
+3. Find and install "Yabai Window Manager"
 
+## Setting Up Shortcuts
 
-# 移动当前空间到上一个显示器
-alt - left : yabai -m window --space prev && yabai -m space --focus prev
-alt - A : yabai -m window --space prev && yabai -m space --focus prev
+This extension follows Yabai's traditional shortcut patterns. All shortcuts need to be manually configured in Raycast preferences:
 
-# 移动当前空间到下一个显示器
-alt - right : yabai -m window --space next && yabai -m space --focus next
+### Window Management
+- Focus Window: `⌥ + [h,j,k,l]`
+  - `⌥h` - Focus left
+  - `⌥j` - Focus down
+  - `⌥k` - Focus up
+  - `⌥l` - Focus right
 
-alt - F : yabai -m window --space next && yabai -m space --focus next
+- Move Window: `⌥⇧ + [h,j,k,l]`
+  - `⌥⇧h` - Move left
+  - `⌥⇧j` - Move down
+  - `⌥⇧k` - Move up
+  - `⌥⇧l` - Move right
 
-# 创建和销毁空间
-yabai -m space --create
+### Space Management
+- Focus Space: `⌥ + [1-9]`
+- Move to Space: `⌥⇧ + [1-9]`
 
-yabai -m space --destroy
+### Layout Controls
+- `⌥f` - Toggle fullscreen
+- `⌥b` - Balance windows
+- `⌥r` - Rotate layout
 
-#  移动窗口到上/下一个空间
-yabai -m window --space prev
-yabai -m window --space next
+### Space Navigation
+- `⌥[` - Move to previous space
+- `⌥]` - Move to next space
 
-# 移动窗口到左/右边的显示器
-yabai -m window --display recent
+## Configuration Steps
+
+1. Open Raycast Preferences (`⌘,`)
+2. Go to Extensions > Yabai
+3. Set up shortcuts for each command:
+   - Click on a command
+   - Press your desired key combination
+   - Repeat for all commands
+
+## Troubleshooting
+
+1. **Shortcuts not working:**
+   - Ensure Yabai is running (`yabai --start-service`)
+   - Check for shortcut conflicts
+   - Verify Yabai permissions
+
+2. **Command failed errors:**
+   - Check Yabai installation: `/usr/local/bin/yabai --version`
+   - Verify service status: `yabai --check-service`
+
+## Custom Installation Path
+
+If Yabai is installed in a non-standard location:
+1. Open extension preferences
+2. Update "Yabai Executable Path"
+3. Enter your custom installation path
+
+## Credits
+
+This project is a fork of [logyxiao/raycast_yabai](https://github.com/logyxiao/raycast_yabai), which itself is a fork of the original raycast_yabai project.
+
+## License
+
+MIT License

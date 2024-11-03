@@ -1,4 +1,4 @@
-import { tospaceFocus } from "./space/tospaceFocus";
+import { tospaceFocus } from "./tospaceFocus";
 
 export default async function Command() {
   await tospaceFocus(1);
