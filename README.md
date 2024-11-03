@@ -4,7 +4,7 @@ Control [Yabai](https://github.com/koekeishiya/yabai) window management directly
 
 ## Prerequisites
 
-- [Yabai](https://github.com/koekeishiya/yabai) installed and configured
+- [Yabai](https://github.com/koekeishiya/yabai) installed and configured (scripting addition required)
 - [Raycast](https://raycast.com/) installed
 
 ## Installation
