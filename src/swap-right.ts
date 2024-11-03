@@ -10,10 +10,10 @@ export default async () => {
       throw new Error(stderr);
     }
 
-    showHUD("向右侧窗口移动成功.");
+    showHUD("Successfully moved window to the right.");
   } catch (error) {
     showFailureToast(error, {
-      title: "移动失败,请确认是否有窗口可移动.",
+      title: "Move failed, please confirm if there are windows available to move.",
     });
   }
 };

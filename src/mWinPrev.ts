@@ -10,7 +10,7 @@ export default async () => {
       throw new Error(stderr);
     }
 
-    showHUD("Yabai has been started.");
+    showHUD("Successfully moved window to previous space.");
   } catch (error) {
     showFailureToast(error, {
       title: "Failed to start Yabai. Make sure you Yabai is installed.",

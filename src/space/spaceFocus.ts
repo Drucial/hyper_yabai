@@ -12,7 +12,7 @@ export async function spaceFocus(index: 1 |2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ) {
       throw new Error(stderr);
     }
 
-    showHUD(`切换到空间${index}`);
+    showHUD(`Switched to space ${index}`);
   } catch (error) {
     showFailureToast(error, {
       title: `Failed to spaceFocus space in the ${index} . Make sure Yabai is installed and running.`,

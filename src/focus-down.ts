@@ -10,10 +10,10 @@ export default async () => {
       throw new Error(stderr);
     }
 
-    showHUD("向下侧窗口聚焦成功.");
+    showHUD("Successfully focused window below");
   } catch (error) {
     showFailureToast(error, {
-      title: "聚焦失败,请确认是否有窗口可聚焦.",
+      title: "Focus failed, please confirm if there are windows available to focus",
     });
   }
 };

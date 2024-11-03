@@ -10,7 +10,7 @@ export default async () => {
       throw new Error(stderr);
     }
 
-    showHUD("切换窗口全屏状态成功.");
+    showHUD("Successfully toggled window fullscreen.");
   } catch (error) {
     showFailureToast(error, {
       title: "Failed to toggle Yabai. Make sure you Yabai is installed.",
