@@ -137,37 +137,44 @@
       "title": "spaceFocus 2",
       "description": "聚焦到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "spaceFocus-3",
       "title": "spaceFocus 3",
       "description": "聚焦到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "spaceFocus-4",
       "title": "spaceFocus 4",
       "description": "聚焦到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "spaceFocus-5",
       "title": "spaceFocus 5",
       "description": "聚焦到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "spaceFocus-6",
       "title": "spaceFocus 6",
       "description": "聚焦到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "spaceFocus-7",
       "title": "spaceFocus 7",
       "description": "聚焦到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "spaceFocus-8",
       "title": "spaceFocus 8",
       "description": "聚焦到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "spaceFocus-9",
       "title": "spaceFocus 9",
       "description": "聚焦到对应空间.",
@@ -184,37 +191,44 @@
       "title": "tospaceFocus 2",
       "description": "将窗口转移到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "tospaceFocus-3",
       "title": "tospaceFocus 3",
       "description": "将窗口转移到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "tospaceFocus-4",
       "title": "tospaceFocus 4",
       "description": "将窗口转移到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "tospaceFocus-5",
       "title": "tospaceFocus 5",
       "description": "将窗口转移到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "tospaceFocus-6",
       "title": "tospaceFocus 6",
       "description": "将窗口转移到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "tospaceFocus-7",
       "title": "tospaceFocus 7",
       "description": "将窗口转移到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "tospaceFocus-8",
       "title": "tospaceFocus 8",
       "description": "将窗口转移到对应空间.",
       "mode": "no-view"
-    },{
+    },
+    {
       "name": "tospaceFocus-9",
       "title": "tospaceFocus 9",
       "description": "将窗口转移到对应空间.",
@@ -231,14 +245,13 @@
       "title": "Path to the yabai executable",
       "placeholder": "/usr/local/bin/yabai",
       "label": "By default, the extension will use the yabai executable from the homebrew installation. If you have yabai installed in a different location, you can specify it here."
-    } 
+    }
   ],
   "dependencies": {
     "@raycast/api": "^1.71.4",
-    "@raycast/utils": "^1.10.0",
+    "@raycast/utils": "^1.18.0",
     "execa": "^7.1.1"
   },
- 
   "devDependencies": {
     "@raycast/eslint-config": "^1.0.6",
     "@types/node": "20.8.10",
