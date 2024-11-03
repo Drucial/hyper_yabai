@@ -3,7 +3,7 @@
   "name": "yabai",
   "title": "Yabai Window Manager",
   "description": "Control Yabai window management from Raycast. Default shortcuts use Option(⌥) key:\n\n• Window Focus: ⌥ + [h,j,k,l]\n• Window Movement: ⌥⇧ + [h,j,k,l]\n• Space Focus: ⌥ + [1-9]\n• Move to Space: ⌥⇧ + [1-9]\n• Layout Controls: ⌥ + [f,b,r]\n\nTo customize shortcuts:\n1. Open Raycast Preferences (⌘,)\n2. Go to Extensions > Yabai\n3. Click any command to modify its shortcut",
-  "icon": "command-icon.png",
+  "icon": "yabai-icon-512px.png",
   "author": "logyxiao",
   "categories": [
     "System"
