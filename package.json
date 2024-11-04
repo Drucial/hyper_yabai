@@ -3,7 +3,7 @@
   "name": "yabai",
   "title": "Yabai Window Manager",
   "description": "Control Yabai window management from Raycast. Default shortcuts use Option(⌥) key:\n\n• Window Focus: ⌥ + [h,j,k,l]\n• Window Movement: ⌥⇧ + [h,j,k,l]\n• Space Focus: ⌥ + [1-9]\n• Move to Space: ⌥⇧ + [1-9]\n• Layout Controls: ⌥ + [f,b,r]\n\nTo customize shortcuts:\n1. Open Raycast Preferences (⌘,)\n2. Go to Extensions > Yabai\n3. Click any command to modify its shortcut",
-  "icon": "yabai-icon-512px.png",
+  "icon": "yabai-icon-dark-512px.png",
   "author": "logyxiao",
   "categories": [
     "System"
@@ -15,21 +15,35 @@
       "title": "Start Yabai",
       "description": "Start the Yabai window management service",
       "mode": "no-view",
-      "keywords": ["yabai", "service", "start"]
+      "keywords": [
+        "yabai",
+        "service",
+        "start"
+      ],
+      "icon": "play.circle"
     },
     {
       "name": "stop",
       "title": "Stop Yabai",
       "description": "Stop the Yabai window management service",
       "mode": "no-view",
-      "keywords": ["yabai", "service", "stop"]
+      "keywords": [
+        "yabai",
+        "service",
+        "stop"
+      ]
     },
     {
       "name": "run-command",
       "title": "Run Custom Yabai Command",
       "description": "Execute a custom Yabai command",
       "mode": "no-view",
-      "keywords": ["yabai", "custom", "command", "execute"],
+      "keywords": [
+        "yabai",
+        "custom",
+        "command",
+        "execute"
+      ],
       "arguments": [
         {
           "name": "command",
@@ -39,13 +53,17 @@
         }
       ]
     },
-
     {
       "name": "focus-up",
       "title": "Focus Window Up",
       "description": "Focus the window above the current window (⌥k)",
       "mode": "no-view",
-      "keywords": ["window", "focus", "up", "north"],
+      "keywords": [
+        "window",
+        "focus",
+        "up",
+        "north"
+      ],
       "shortcut": "alt k"
     },
     {
@@ -53,7 +71,12 @@
       "title": "Focus Window Down",
       "description": "Focus the window below the current window (⌥j)",
       "mode": "no-view",
-      "keywords": ["window", "focus", "down", "south"],
+      "keywords": [
+        "window",
+        "focus",
+        "down",
+        "south"
+      ],
       "shortcut": "alt j"
     },
     {
@@ -61,7 +84,12 @@
       "title": "Focus Window Left",
       "description": "Focus the window to the left (⌥h)",
       "mode": "no-view",
-      "keywords": ["window", "focus", "left", "west"],
+      "keywords": [
+        "window",
+        "focus",
+        "left",
+        "west"
+      ],
       "shortcut": "alt h"
     },
     {
@@ -69,16 +97,26 @@
       "title": "Focus Window Right",
       "description": "Focus the window to the right (⌥l)",
       "mode": "no-view",
-      "keywords": ["window", "focus", "right", "east"],
+      "keywords": [
+        "window",
+        "focus",
+        "right",
+        "east"
+      ],
       "shortcut": "alt l"
     },
-
     {
       "name": "swap-up",
       "title": "Move Window Up",
       "description": "Swap the current window with the window above (⌥⇧k)",
       "mode": "no-view",
-      "keywords": ["window", "move", "swap", "up", "north"],
+      "keywords": [
+        "window",
+        "move",
+        "swap",
+        "up",
+        "north"
+      ],
       "shortcut": "alt shift k"
     },
     {
@@ -86,7 +124,13 @@
       "title": "Move Window Down",
       "description": "Swap the current window with the window below (⌥⇧j)",
       "mode": "no-view",
-      "keywords": ["window", "move", "swap", "down", "south"],
+      "keywords": [
+        "window",
+        "move",
+        "swap",
+        "down",
+        "south"
+      ],
       "shortcut": "alt shift j"
     },
     {
@@ -94,7 +138,13 @@
       "title": "Move Window Left",
       "description": "Swap the current window with the window to the left (⌥⇧h)",
       "mode": "no-view",
-      "keywords": ["window", "move", "swap", "left", "west"],
+      "keywords": [
+        "window",
+        "move",
+        "swap",
+        "left",
+        "west"
+      ],
       "shortcut": "alt shift h"
     },
     {
@@ -102,16 +152,26 @@
       "title": "Move Window Right",
       "description": "Swap the current window with the window to the right (⌥⇧l)",
       "mode": "no-view",
-      "keywords": ["window", "move", "swap", "right", "east"],
+      "keywords": [
+        "window",
+        "move",
+        "swap",
+        "right",
+        "east"
+      ],
       "shortcut": "alt shift l"
     },
-
     {
       "name": "zoom-fullscreen",
       "title": "Toggle Fullscreen",
       "description": "Toggle fullscreen mode for the current window (⌥f)",
       "mode": "no-view",
-      "keywords": ["window", "fullscreen", "zoom", "toggle"],
+      "keywords": [
+        "window",
+        "fullscreen",
+        "zoom",
+        "toggle"
+      ],
       "shortcut": "alt f"
     },
     {
@@ -119,7 +179,12 @@
       "title": "Balance Windows",
       "description": "Equalize the size of all windows in the current space (⌥b)",
       "mode": "no-view",
-      "keywords": ["window", "balance", "equalize", "resize"],
+      "keywords": [
+        "window",
+        "balance",
+        "equalize",
+        "resize"
+      ],
       "shortcut": "alt b"
     },
     {
@@ -127,31 +192,46 @@
       "title": "Rotate Windows",
       "description": "Rotate the window tree 90 degrees clockwise (⌥r)",
       "mode": "no-view",
-      "keywords": ["window", "rotate", "arrangement"],
+      "keywords": [
+        "window",
+        "rotate",
+        "arrangement"
+      ],
       "shortcut": "alt r"
     },
-
     {
       "name": "create",
       "title": "Create Space",
       "description": "Create a new space",
       "mode": "no-view",
-      "keywords": ["space", "create", "new"]
+      "keywords": [
+        "space",
+        "create",
+        "new"
+      ]
     },
     {
       "name": "destroy",
       "title": "Destroy Space",
       "description": "Remove the current space",
       "mode": "no-view",
-      "keywords": ["space", "destroy", "remove"]
+      "keywords": [
+        "space",
+        "destroy",
+        "remove"
+      ]
     },
-
     {
       "name": "mWinPrev",
       "title": "Move to Previous Space",
       "description": "Move the current window to the previous space (⌥[)",
       "mode": "no-view",
-      "keywords": ["space", "window", "move", "previous"],
+      "keywords": [
+        "space",
+        "window",
+        "move",
+        "previous"
+      ],
       "shortcut": "alt ["
     },
     {
@@ -159,16 +239,25 @@
       "title": "Move to Next Space",
       "description": "Move the current window to the next space (⌥])",
       "mode": "no-view",
-      "keywords": ["space", "window", "move", "next"],
+      "keywords": [
+        "space",
+        "window",
+        "move",
+        "next"
+      ],
       "shortcut": "alt ]"
     },
-
     {
       "name": "spaceFocus-1",
       "title": "Focus Space 1",
       "description": "Switch focus to space 1 (⌥1)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "1"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "1"
+      ],
       "shortcut": "alt 1"
     },
     {
@@ -176,7 +265,12 @@
       "title": "Focus Space 2",
       "description": "Switch focus to space 2 (⌥2)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "2"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "2"
+      ],
       "shortcut": "alt 2"
     },
     {
@@ -184,7 +278,12 @@
       "title": "Focus Space 3",
       "description": "Switch focus to space 3 (⌥3)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "3"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "3"
+      ],
       "shortcut": "alt 3"
     },
     {
@@ -192,7 +291,12 @@
       "title": "Focus Space 4",
       "description": "Switch focus to space 4 (⌥4)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "4"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "4"
+      ],
       "shortcut": "alt 4"
     },
     {
@@ -200,7 +304,12 @@
       "title": "Focus Space 5",
       "description": "Switch focus to space 5 (⌥5)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "5"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "5"
+      ],
       "shortcut": "alt 5"
     },
     {
@@ -208,7 +317,12 @@
       "title": "Focus Space 6",
       "description": "Switch focus to space 6 (⌥6)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "6"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "6"
+      ],
       "shortcut": "alt 6"
     },
     {
@@ -216,7 +330,12 @@
       "title": "Focus Space 7",
       "description": "Switch focus to space 7 (⌥7)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "7"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "7"
+      ],
       "shortcut": "alt 7"
     },
     {
@@ -224,7 +343,12 @@
       "title": "Focus Space 8",
       "description": "Switch focus to space 8 (⌥8)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "8"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "8"
+      ],
       "shortcut": "alt 8"
     },
     {
@@ -232,16 +356,25 @@
       "title": "Focus Space 9",
       "description": "Switch focus to space 9 (⌥9)",
       "mode": "no-view",
-      "keywords": ["space", "focus", "switch", "9"],
+      "keywords": [
+        "space",
+        "focus",
+        "switch",
+        "9"
+      ],
       "shortcut": "alt 9"
     },
-
     {
       "name": "tospaceFocus-1",
       "title": "Move Window to Space 1",
       "description": "Move the current window to space 1 (⌥⇧1)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "1"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "1"
+      ],
       "shortcut": "alt shift 1"
     },
     {
@@ -249,7 +382,12 @@
       "title": "Move Window to Space 2",
       "description": "Move the current window to space 2 (⌥⇧2)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "2"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "2"
+      ],
       "shortcut": "alt shift 2"
     },
     {
@@ -257,7 +395,12 @@
       "title": "Move Window to Space 3",
       "description": "Move the current window to space 3 (⌥⇧3)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "3"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "3"
+      ],
       "shortcut": "alt shift 3"
     },
     {
@@ -265,7 +408,12 @@
       "title": "Move Window to Space 4",
       "description": "Move the current window to space 4 (⌥⇧4)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "4"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "4"
+      ],
       "shortcut": "alt shift 4"
     },
     {
@@ -273,7 +421,12 @@
       "title": "Move Window to Space 5",
       "description": "Move the current window to space 5 (⌥⇧5)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "5"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "5"
+      ],
       "shortcut": "alt shift 5"
     },
     {
@@ -281,7 +434,12 @@
       "title": "Move Window to Space 6",
       "description": "Move the current window to space 6 (⌥⇧6)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "6"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "6"
+      ],
       "shortcut": "alt shift 6"
     },
     {
@@ -289,7 +447,12 @@
       "title": "Move Window to Space 7",
       "description": "Move the current window to space 7 (⌥⇧7)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "7"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "7"
+      ],
       "shortcut": "alt shift 7"
     },
     {
@@ -297,7 +460,12 @@
       "title": "Move Window to Space 8",
       "description": "Move the current window to space 8 (⌥⇧8)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "8"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "8"
+      ],
       "shortcut": "alt shift 8"
     },
     {
@@ -305,7 +473,12 @@
       "title": "Move Window to Space 9",
       "description": "Move the current window to space 9 (⌥⇧9)",
       "mode": "no-view",
-      "keywords": ["window", "move", "space", "9"],
+      "keywords": [
+        "window",
+        "move",
+        "space",
+        "9"
+      ],
       "shortcut": "alt shift 9"
     }
   ],
