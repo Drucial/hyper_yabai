@@ -30,6 +30,12 @@ This extension follows Yabai's traditional shortcut patterns. All shortcuts need
   - `⌥⇧k` - Move up
   - `⌥⇧l` - Move right
 
+- Resize Window: `⌥⌘ + [h,j,k,l]` (Recommended)
+  - `⌥⌘h` - Shrink horizontally
+  - `⌥⌘j` - Shrink vertically
+  - `⌥⌘k` - Grow vertically
+  - `⌥⌘l` - Grow horizontally
+
 ### Space Management
 - Focus Space: `⌥ + [1-9]`
 - Move to Space: `⌥⇧ + [1-9]`
@@ -42,6 +48,22 @@ This extension follows Yabai's traditional shortcut patterns. All shortcuts need
 ### Space Navigation
 - `⌥[` - Move to previous space
 - `⌥]` - Move to next space
+
+## Window Resizing
+
+The extension supports intelligent window resizing that works with Yabai's BSP layout:
+
+- **Vertical Resizing**
+  - Grows/shrinks windows vertically when possible
+  - Automatically detects and resizes against adjacent windows
+  - Works with all window positions in BSP mode
+
+- **Horizontal Resizing**
+  - Grows/shrinks windows horizontally when possible
+  - Automatically detects and resizes against adjacent windows
+  - Works with all window positions in BSP mode
+
+Default resize amount is 50 pixels per command execution.
 
 ## Configuration Steps
 
@@ -62,6 +84,11 @@ This extension follows Yabai's traditional shortcut patterns. All shortcuts need
 2. **Command failed errors:**
    - Check Yabai installation: `/usr/local/bin/yabai --version`
    - Verify service status: `yabai --check-service`
+
+3. **Resize not working:**
+   - Ensure window is in BSP mode
+   - Verify there are adjacent windows
+   - Check if window has room to grow/shrink
 
 ## Custom Installation Path
 
