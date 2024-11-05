@@ -480,6 +480,65 @@
         "9"
       ],
       "shortcut": "alt shift 9"
+    },
+    {
+      "name": "toggleSplit",
+      "title": "Toggle Split",
+      "description": "Toggle split mode for the current space",
+      "mode": "no-view",
+      "keywords": [
+        "space",
+        "toggle",
+        "split"
+      ]
+    },
+    {
+      "name": "growVertically",
+      "title": "Grow Vertically",
+      "description": "Grow the current window vertically",
+      "mode": "no-view",
+      "keywords": [
+        "window",
+        "grow",
+        "vertical",
+        "resize"
+      ]
+    },
+    {
+      "name": "shrinkVertically",
+      "title": "Shrink Vertically",
+      "description": "Shrink the current window vertically",
+      "mode": "no-view",
+      "keywords": [
+        "window",
+        "shrink",
+        "vertical",
+        "resize"
+      ]
+    },
+    {
+      "name": "growHorizontally",
+      "title": "Grow Horizontally",
+      "description": "Grow the current window horizontally",
+      "mode": "no-view",
+      "keywords": [
+        "window",
+        "grow",
+        "horizontal",
+        "resize"
+      ]
+    },
+    {
+      "name": "shrinkHorizontally",
+      "title": "Shrink Horizontally",
+      "description": "Shrink the current window horizontally",
+      "mode": "no-view",
+      "keywords": [
+        "window",
+        "shrink",
+        "horizontal",
+        "resize"
+      ]
     }
   ],
   "preferences": [

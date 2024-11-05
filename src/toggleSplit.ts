@@ -4,16 +4,16 @@ import { showFailureToast } from "@raycast/utils";
 
 export default async () => {
   try {
-    const { stderr } = await runYabaiCommand("-m window --swap north");
+    const { stderr } = await runYabaiCommand("-m window --toggle split");
 
     if (stderr) {
-      throw new Error(stderr);
+      throw new Error();
     }
 
-    showHUD("Successfully moved window up.");
+    showHUD("Toggled split");
   } catch (error) {
     showFailureToast(error, {
-      title: "Failed to move window up, make sure you have Yabai installed and running.",
+        title: "Failed to toggle split, make sure you have Yabai installed and running.",
     });
   }
 };
