@@ -202,6 +202,29 @@ Click on any feature to copy its branch name or create a PR:
   git checkout -b feature/add-display-focus
   ```
 
+### Window Management UI
+- [ ] [Add space window list](https://github.com/your-username/raycast-yabai/compare/main...feature/add-space-window-list?quick_pull=1&title=feat:+Add+space+window+list&body=Add+visual+list+of+current+space+windows+with+icons%0A%0AFeatures:%0A-+Show+all+windows+in+current+space%0A-+Display+app+icons%0A-+Allow+focusing+windows+from+list%0A-+Show+window+titles+and+dimensions%0A%0ABranch+name:+`feature/add-space-window-list`)
+  ```
+  git checkout -b feature/add-space-window-list
+  ```
+  This feature will:
+  - Display all windows in the current space
+  - Show application icons for each window
+  - Enable focusing windows from the list
+  - Include window titles and dimensions
+  - Support searching and filtering
+
+### Service Management
+- [ ] [Add restart command](https://github.com/your-username/raycast-yabai/compare/main...feature/add-restart-command?quick_pull=1&title=feat:+Add+restart+command&body=Add+command+to+restart+Yabai+service%0A%0AFeatures:%0A-+Gracefully+stop+Yabai%0A-+Wait+for+service+to+stop%0A-+Start+Yabai+again%0A-+Verify+service+is+running%0A%0ABranch+name:+`feature/add-restart-command`)
+  ```
+  git checkout -b feature/add-restart-command
+  ```
+  This command will:
+  - Gracefully stop the Yabai service
+  - Wait for proper shutdown
+  - Start the service again
+  - Verify successful restart
+
 ## Troubleshooting
 
 1. **Shortcuts not working:**
