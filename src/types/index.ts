@@ -1,9 +1,42 @@
-
 export type YabaiWindow = {
   id: number;
-  title: string;
+  pid: number;
   app: string;
-  frame: { x: number; y: number; width: number; height: number };
+  title: string;
+  scratchpad: string;
+  frame: {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
+  role: string;
+  subrole: string;
+  rootWindow: boolean;
+  display: number;
+  space: number;
+  level: number;
+  subLevel: number;
+  layer: string;
+  subLayer: string;
+  opacity: number;
+  splitType: string;
+  splitChild: string;
+  stackIndex: number;
+  canMove: boolean;
+  canResize: boolean;
+  hasFocus: boolean;
+  hasShadow: boolean;
+  hasParentZoom: boolean;
+  hasFullscreenZoom: boolean;
+  hasAxReference: boolean;
+  isNativeFullscreen: boolean;
+  isVisible: boolean;
+  isMinimized: boolean;
+  isHidden: boolean;
+  isFloating: boolean;
+  isSticky: boolean;
+  isGrabbed: boolean;
 };
 
 export type YabaiSpace = {
@@ -21,4 +54,9 @@ export type YabaiSpace = {
   isNativeFullscreen: boolean;
 };
 
-export type Direction = "west" | "east" | "north" | "south";
+export enum Direction {
+  WEST = "west",
+  EAST = "east",
+  NORTH = "north",
+  SOUTH = "south",
+}

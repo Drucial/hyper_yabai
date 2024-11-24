@@ -1,6 +1,6 @@
 import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { MessageType, showYabaiMessage } from "./utils/notifications";
 import { getWindowInfo } from "./helpers/window";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 
 export default async function Command() {
   const SUCCESS_MESSAGE = {

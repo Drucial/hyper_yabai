@@ -1,6 +1,7 @@
 import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { hasAdjacentWindow, getWindowInfo, getSpaceWindows } from "./helpers/window";
+import { hasAdjacentWindow, getWindowInfo } from "./helpers/window";
+import { getSpaceWindows } from "./helpers/space";
 
 export default async () => {
   const SUCCESS_MESSAGE = {
@@ -16,7 +17,7 @@ export default async () => {
   const currentWindow = await getWindowInfo();
   const activeWindows = await getSpaceWindows();
 
-  if (!hasAdjacentWindow(currentWindow, activeWindows, 'below')) {
+  if (!hasAdjacentWindow(currentWindow, activeWindows, "south")) {
     await showYabaiMessage({
       title: "Move down failed, no window to swap with.",
       type: MessageType.INFO,
