@@ -9,8 +9,8 @@ export default async () => {
     validate: async () => {
       return {
         canProceed: await canFocus(Direction.NORTH),
-        message: "No window to focus above",
-      }
-    }
+        message: "No window above to focus",
+      };
+    },
   });
 };
