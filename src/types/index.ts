@@ -74,7 +74,14 @@ export type CommandOptions = {
   failureMessage: string;
   requiresWindow?: boolean;
   requiresMultipleWindows?: boolean;
+  MessageArgs?: MessageArgs;
   validate?: () => Promise<ValidationResult>;
+}
+
+export type MessageArgs = {
+  SPACE_INDEX?: string;
+  APP?: string;
+  TITLE?: string;
 }
 
 export type YabaiCommandResult = {

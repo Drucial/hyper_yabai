@@ -4,7 +4,7 @@ import { isYabaiRunning, runYabaiCommand } from "../helpers/scripts";
 import { MESSAGES, showYabaiMessage } from "../utils/notifications";
 import { getWindowInfo } from "../helpers/window";
 import { CommandOptions } from "../types";
-import { getSpaceWindows } from "../helpers/space";
+import { getSpaceInfo, getSpaceWindows } from "../helpers/space";
 import { showFailureToast } from "@raycast/utils";
 
 async function checkFocusedWindow(): Promise<boolean> {
@@ -53,6 +53,32 @@ export async function executeYabaiCommand(options: CommandOptions) {
           type: MessageType.INFO,
         });
         return;
+      }
+    }
+
+    console.log("options.MessageArgs", options.MessageArgs);
+    if (options.MessageArgs) {
+      const { SPACE_INDEX, APP, TITLE } = options.MessageArgs;
+
+      console.log("SPACE_INDEX", SPACE_INDEX);
+      console.log("APP", APP);
+      console.log("TITLE", TITLE);
+
+      const spaceIndex = (await getSpaceInfo())?.data?.index;
+      const app = (await getWindowInfo())?.data?.app;
+      const title = (await getWindowInfo())?.data?.title;
+
+      if (SPACE_INDEX && spaceIndex) {
+        options.successMessage = options.successMessage.replace("$SPACE_INDEX", spaceIndex.toString());
+        options.failureMessage = options.failureMessage.replace("$SPACE_INDEX", spaceIndex.toString());
+      }
+      if (APP && app) {
+        options.successMessage = options.successMessage.replace("$APP", app);
+        options.failureMessage = options.failureMessage.replace("$APP", app);
+      }
+      if (TITLE && title) {
+        options.successMessage = options.successMessage.replace("$TITLE", title);
+        options.failureMessage = options.failureMessage.replace("$TITLE", title);
       }
     }
 
