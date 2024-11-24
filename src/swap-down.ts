@@ -1,46 +1,16 @@
-import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
-import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { hasAdjacentWindow, getWindowInfo } from "./helpers/window";
-import { getSpaceWindows } from "./helpers/space";
+import { Direction } from "./types";
+import { executeYabaiCommand } from "./utils/commandRunner";
+import { canFocus } from "./helpers/window";
 
 export default async () => {
-  const SUCCESS_MESSAGE = {
-    title: "Successfully moved window down.",
-    type: MessageType.SUCCESS,
-  };
-
-  if (!(await isYabaiRunning())) {
-    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
-    return;
-  }
-
-  const currentWindow = await getWindowInfo();
-  const activeWindows = await getSpaceWindows();
-
-  if (!hasAdjacentWindow(currentWindow, activeWindows, "south")) {
-    await showYabaiMessage({
-      title: "Move down failed, no window to swap with.",
-      type: MessageType.INFO,
-    });
-    return;
-  }
-
-  try {
-    const { stderr } = await runYabaiCommand("-m window --swap south");
-
-    if (stderr) {
-      await showYabaiMessage({
-        title: "Failed to move window down.",
-        type: MessageType.INFO,
-      });
-      return;
+  await executeYabaiCommand({
+    command: "-m window --swap south",
+    failureMessage: `No window to swap with`,
+    validate: async () => {
+      return {
+        canProceed: await canFocus(Direction.SOUTH),
+        message: "No window above to swap with",
+      }
     }
-
-    await showYabaiMessage(SUCCESS_MESSAGE);
-  } catch (error) {
-    await showYabaiMessage({
-      title: "Move down failed, please confirm if there are windows available to move.",
-      type: MessageType.INFO,
-    });
-  }
+  });
 };

@@ -1,33 +1,16 @@
-import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
+import { canFocus } from "./helpers/window";
+import { Direction } from "./types";
+import { executeYabaiCommand } from "./utils/commandRunner";
 
 export default async () => {
-  const SUCCESS_MESSAGE = {
-    title: "Focused window to the right",
-    type: MessageType.SUCCESS,
-  };
-
-  if (!(await isYabaiRunning())) {
-    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
-    return;
-  }
-
-  try {
-    const { stderr } = await runYabaiCommand("-m window --focus east");
-
-    if (stderr) {
-      await showYabaiMessage({
-        title: "Unable to focus window to the right",
-        type: MessageType.INFO,
-      });
-      return
-    }
-
-    await showYabaiMessage(SUCCESS_MESSAGE);
-  } catch (error) {
-    await showYabaiMessage({
-      title: "No window to focus on the right",
-      type: MessageType.INFO,
-    });
-  }
+  await executeYabaiCommand({
+    command: "-m window --focus east",
+    failureMessage: `No window to focus on the right`,
+    validate: async () => {
+      return {
+        canProceed: await canFocus(Direction.EAST),
+        message: "No window right to focus",
+      };
+    },
+  });
 };

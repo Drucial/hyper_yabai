@@ -1,33 +1,16 @@
-import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
+import { canFocus } from "./helpers/window";
+import { Direction } from "./types";
+import { executeYabaiCommand } from "./utils/commandRunner";
 
 export default async () => {
-  const SUCCESS_MESSAGE = {
-    title: "Focused window above",
-    type: MessageType.SUCCESS,
-  };
-
-  if (!(await isYabaiRunning())) {
-    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
-    return;
-  }
-
-  try {
-    const { stderr } = await runYabaiCommand("-m window --focus north");
-
-    if (stderr) {
-      await showYabaiMessage({
-        title: "Unable to focus window above",
-        type: MessageType.INFO,
-      });
-      return;
+  await executeYabaiCommand({
+    command: "-m window --focus north",
+    failureMessage: `No window to focus above`,
+    validate: async () => {
+      return {
+        canProceed: await canFocus(Direction.NORTH),
+        message: "No window to focus above",
+      }
     }
-
-    await showYabaiMessage(SUCCESS_MESSAGE);
-  } catch (error) {
-    await showYabaiMessage({
-      title: "No window to focus above",
-      type: MessageType.INFO,
-    });
-  }
+  });
 };

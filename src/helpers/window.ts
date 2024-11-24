@@ -14,6 +14,15 @@ export async function getWindowInfo(): Promise<YabaiQueryResult<YabaiWindow>> {
   return handleYabaiQuery<YabaiWindow>("-m query --windows --window");
 }
 
+export async function canFocus(direction: Direction): Promise<boolean> {
+  console.log("Checking if can focus", direction);
+  const windowInfo = await getWindowInfo();
+  const spaceWindows = await getSpaceWindows();
+  if (!windowInfo.data || !spaceWindows.data || spaceWindows.data.length < 2) return false;
+  console.log("Checking if has adjacent window", windowInfo.data, spaceWindows.data, direction);
+  return hasAdjacentWindow(windowInfo.data, spaceWindows.data, direction);
+}
+
 export function isWindowSplit(window: YabaiWindow, spaceWindows: YabaiWindow[]): boolean {
   return spaceWindows.some(w => w.id !== window.id && w.frame.w > 0 && w.frame.h > 0);
 }

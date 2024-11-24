@@ -70,7 +70,7 @@ export type ValidationResult = {
 
 export type CommandOptions = {
   command: string;
-  successMessage: string;
+  successMessage?: string;
   failureMessage: string;
   requiresWindow?: boolean;
   requiresMultipleWindows?: boolean;

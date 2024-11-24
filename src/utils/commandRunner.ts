@@ -1,6 +1,6 @@
-import { MessageType } from "./notifications";
+import { MESSAGES, MessageType } from "./notifications";
 import { isYabaiRunning, runYabaiCommand } from "../helpers/scripts";
-import { MESSAGES, showYabaiMessage } from "../utils/notifications";
+import { showYabaiMessage } from "../utils/notifications";
 import { getWindowInfo } from "../helpers/window";
 import { CommandOptions } from "../types";
 import { getSpaceInfo, getSpaces, getSpaceWindows } from "../helpers/space";
@@ -29,11 +29,13 @@ async function checkFocusedWindow(): Promise<boolean> {
 export async function executeYabaiCommand(options: CommandOptions) {
   // Check if yabai is running
   if (!(await isYabaiRunning())) {
-    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    await showYabaiMessage({
+      title: MESSAGES.SYSTEM.YABAI_NOT_RUNNING.title,
+      type: MessageType.INFO,
+    });
     return;
   }
 
-  console.log("Executing command", options.command);
   try {
     // Check for window requirement first
     if (options.requiresWindow || options.requiresMultipleWindows) {
@@ -74,20 +76,20 @@ export async function executeYabaiCommand(options: CommandOptions) {
       const title = windowInfo?.data?.title;
 
       if (SPACE_INDEX && spaceIndex) {
-        options.successMessage = options.successMessage.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
-        options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
+        options.successMessage = options.successMessage?.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
+        options.failureMessage = options.failureMessage?.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
       }
       if (NEW_SPACE_INDEX && newSpaceIndex) {
-        options.successMessage = options.successMessage.replace(MESSAGE_ARGS.NEW_SPACE_INDEX, newSpaceIndex.toString());
-        options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.NEW_SPACE_INDEX, newSpaceIndex.toString());
+        options.successMessage = options.successMessage?.replace(MESSAGE_ARGS.NEW_SPACE_INDEX, newSpaceIndex.toString());
+        options.failureMessage = options.failureMessage?.replace(MESSAGE_ARGS.NEW_SPACE_INDEX, newSpaceIndex.toString());
       }
       if (APP && app) {
-        options.successMessage = options.successMessage.replace(MESSAGE_ARGS.APP, app);
-        options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.APP, app);
+        options.successMessage = options.successMessage?.replace(MESSAGE_ARGS.APP, app);
+        options.failureMessage = options.failureMessage?.replace(MESSAGE_ARGS.APP, app);
       }
       if (TITLE && title) {
-        options.successMessage = options.successMessage.replace(MESSAGE_ARGS.TITLE, title);
-        options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.TITLE, title);
+        options.successMessage = options.successMessage?.replace(MESSAGE_ARGS.TITLE, title);
+        options.failureMessage = options.failureMessage?.replace(MESSAGE_ARGS.TITLE, title);
       }
     }
 
@@ -116,10 +118,12 @@ export async function executeYabaiCommand(options: CommandOptions) {
     }
 
     // Show success message
-    await showYabaiMessage({
-      title: options.successMessage,
-      type: MessageType.SUCCESS,
-    });
+    if (options.successMessage) {
+      await showYabaiMessage({
+        title: options.successMessage,
+        type: MessageType.SUCCESS,
+      });
+    }
   } catch (error: unknown) {
     console.error("error", error);
     if (error instanceof Error) {
