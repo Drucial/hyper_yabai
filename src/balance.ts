@@ -1,11 +1,14 @@
 import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
+import { MessageType, showYabaiMessage } from "./utils/notifications";
+import { getWindowInfo } from "./helpers/window";
 
 export default async function Command() {
   const SUCCESS_MESSAGE = {
     title: "Balanced space",
     type: MessageType.SUCCESS,
   };
+
+  console.log(await getWindowInfo());
 
   if (!(await isYabaiRunning())) {
     await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);

@@ -1,53 +1,29 @@
+import { Direction, YabaiWindow } from "../types";
 import { runYabaiCommand } from "./scripts";
+import { getSpaceInfo, getSpaceWindows } from "./space";
 
 const RESIZE_AMOUNT = 50;
 const POSITION_TOLERANCE = 20;
 
-export interface YabaiWindow {
-  frame: {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-  };
-  id: number;
-  "split-type": string;
-  display: number;
-}
-
-export interface YabaiSpace {
-  type: string;
-  index: number;
-}
-
-export interface ResizeCommand {
+export type ResizeCommand = {
   command: string;
   args: string;
 }
 
-async function getSpaceInfo(): Promise<YabaiSpace> {
-  const { stdout, stderr } = await runYabaiCommand("-m query --spaces --space");
-  if (stderr) throw new Error(stderr);
-  return JSON.parse(stdout);
+
+export async function getWindowInfo(): Promise<YabaiWindow> {
+  const result = await runYabaiCommand("-m query --windows --window");
+  if ("stdout" in result) {
+    return result.stdout as YabaiWindow;
+  }
+  throw new Error(result.stderr);
 }
 
-export async function getWindowInfo() {
-  const { stdout, stderr } = await runYabaiCommand("-m query --windows --window");
-  if (stderr) throw new Error(stderr);
-  return JSON.parse(stdout) as YabaiWindow;
-}
-
-export async function getSpaceWindows() {
-  const { stdout, stderr } = await runYabaiCommand("-m query --windows --space");
-  if (stderr) throw new Error(stderr);
-  return JSON.parse(stdout) as YabaiWindow[];
-}
 
 export function isWindowSplit(window: YabaiWindow, spaceWindows: YabaiWindow[]): boolean {
-  return spaceWindows.some(w => w.id !== window.id && w.frame.w > 0 && w.frame.h > 0);
+  return spaceWindows.some(w => w.id !== window.id && w.frame.width > 0 && w.frame.height > 0);
 }
 
-type Direction = 'left' | 'right' | 'above' | 'below';
 
 export function hasAdjacentWindow(
   currentWindow: YabaiWindow,
@@ -56,24 +32,24 @@ export function hasAdjacentWindow(
 ): boolean {
   return activeWindows.some(window => {
     switch (direction) {
-      case 'left':
+      case 'west':
         return (
-          Math.abs((window.frame.x + window.frame.w) - currentWindow.frame.x) < POSITION_TOLERANCE &&
+          Math.abs((window.frame.x + window.frame.width) - currentWindow.frame.x) < POSITION_TOLERANCE &&
           hasYOverlap(window, currentWindow)
         );
-      case 'right':
+      case 'east':
         return (
-          Math.abs(window.frame.x - (currentWindow.frame.x + currentWindow.frame.w)) < POSITION_TOLERANCE &&
+          Math.abs(window.frame.x - (currentWindow.frame.x + currentWindow.frame.width)) < POSITION_TOLERANCE &&
           hasYOverlap(window, currentWindow)
         );
-      case 'above':
+      case 'north':
         return (
-          Math.abs((window.frame.y + window.frame.h) - currentWindow.frame.y) < POSITION_TOLERANCE &&
+          Math.abs((window.frame.y + window.frame.height) - currentWindow.frame.y) < POSITION_TOLERANCE &&
           hasXOverlap(window, currentWindow)
         );
-      case 'below':
+      case 'south':
         return (
-          Math.abs(window.frame.y - (currentWindow.frame.y + currentWindow.frame.h)) < POSITION_TOLERANCE &&
+          Math.abs(window.frame.y - (currentWindow.frame.y + currentWindow.frame.height)) < POSITION_TOLERANCE &&
           hasXOverlap(window, currentWindow)
         );
     }
@@ -83,15 +59,15 @@ export function hasAdjacentWindow(
 // Helper functions to reduce duplication
 function hasXOverlap(window1: YabaiWindow, window2: YabaiWindow): boolean {
   return (
-    window1.frame.x < (window2.frame.x + window2.frame.w) &&
-    (window1.frame.x + window1.frame.w) > window2.frame.x
+    window1.frame.x < (window2.frame.x + window2.frame.width) &&
+    (window1.frame.x + window1.frame.width) > window2.frame.x
   );
 }
 
 function hasYOverlap(window1: YabaiWindow, window2: YabaiWindow): boolean {
   return (
-    window1.frame.y < (window2.frame.y + window2.frame.h) &&
-    (window1.frame.y + window1.frame.h) > window2.frame.y
+    window1.frame.y < (window2.frame.y + window2.frame.height) &&
+    (window1.frame.y + window1.frame.height) > window2.frame.y
   );
 }
 
@@ -104,18 +80,18 @@ export async function getVerticalGrowCommand(): Promise<ResizeCommand | null> {
 
   const activeWindows = spaceWindows.filter(w => 
     w.id !== currentWindow.id && 
-    w.frame.w > 0 && 
-    w.frame.h > 0
+    w.frame.width > 0 && 
+    w.frame.height > 0
   );
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'below')) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'south')) {
     return {
       command: "-m window",
       args: `--resize bottom:0:${RESIZE_AMOUNT}`
     };
   }
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'above')) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'north')) {
     return {
       command: "-m window",
       args: `--resize top:0:-${RESIZE_AMOUNT}`
@@ -134,18 +110,18 @@ export async function getVerticalShrinkCommand(): Promise<ResizeCommand | null> 
 
   const activeWindows = spaceWindows.filter(w => 
     w.id !== currentWindow.id && 
-    w.frame.w > 0 && 
-    w.frame.h > 0
+    w.frame.width > 0 && 
+    w.frame.height > 0
   );
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'below')) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'south')) {
     return {
       command: "-m window",
       args: `--resize bottom:0:-${RESIZE_AMOUNT}`
     };
   }
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'above')) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'north')) {
     return {
       command: "-m window",
       args: `--resize top:0:${RESIZE_AMOUNT}`
@@ -164,18 +140,18 @@ export async function getHorizontalGrowCommand(): Promise<ResizeCommand | null> 
 
   const activeWindows = spaceWindows.filter(w => 
     w.id !== currentWindow.id && 
-    w.frame.w > 0 && 
-    w.frame.h > 0
+    w.frame.width > 0 && 
+    w.frame.height > 0
   );
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'right')) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'east')) {
     return {
       command: "-m window",
       args: `--resize right:${RESIZE_AMOUNT}:0`
     };
   }
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'left')) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'west')) {
     return {
       command: "-m window",
       args: `--resize left:-${RESIZE_AMOUNT}:0`
@@ -194,18 +170,18 @@ export async function getHorizontalShrinkCommand(): Promise<ResizeCommand | null
 
   const activeWindows = spaceWindows.filter(w => 
     w.id !== currentWindow.id && 
-    w.frame.w > 0 && 
-    w.frame.h > 0
+    w.frame.width > 0 && 
+    w.frame.height > 0
   );
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'right')) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'east')) {
     return {
       command: "-m window",
       args: `--resize right:-${RESIZE_AMOUNT}:0`
     };
   }
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'left')) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'west')) {
     return {
       command: "-m window",
       args: `--resize left:${RESIZE_AMOUNT}:0`
