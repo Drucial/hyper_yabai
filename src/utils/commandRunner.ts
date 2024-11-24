@@ -3,13 +3,14 @@ import { isYabaiRunning, runYabaiCommand } from "../helpers/scripts";
 import { MESSAGES, showYabaiMessage } from "../utils/notifications";
 import { getWindowInfo } from "../helpers/window";
 import { CommandOptions } from "../types";
-import { getSpaceInfo, getSpaceWindows } from "../helpers/space";
+import { getSpaceInfo, getSpaces, getSpaceWindows } from "../helpers/space";
 import { showFailureToast } from "@raycast/utils";
 
 export const MESSAGE_ARGS: Record<string, string> = {
   SPACE_INDEX: "$SPACE_INDEX",
   APP: "$APP",
   TITLE: "$TITLE",
+  NEW_SPACE_INDEX: "$NEW_SPACE_INDEX",
 };
 
 async function checkFocusedWindow(): Promise<boolean> {
@@ -63,15 +64,22 @@ export async function executeYabaiCommand(options: CommandOptions) {
     }
 
     if (options.MessageArgs) {
-      const { SPACE_INDEX, APP, TITLE } = options.MessageArgs;
-
-      const spaceIndex = (await getSpaceInfo())?.data?.index;
-      const app = (await getWindowInfo())?.data?.app;
-      const title = (await getWindowInfo())?.data?.title;
+      const { SPACE_INDEX, APP, TITLE, NEW_SPACE_INDEX } = options.MessageArgs;
+      const spaces = await getSpaces();
+      const spaceInfo = await getSpaceInfo();
+      const windowInfo = await getWindowInfo(); 
+      const spaceIndex = spaceInfo?.data?.index;
+      const newSpaceIndex = spaces.data?.length ? spaces.data.length + 1 : 1;
+      const app = windowInfo?.data?.app;
+      const title = windowInfo?.data?.title;
 
       if (SPACE_INDEX && spaceIndex) {
         options.successMessage = options.successMessage.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
         options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
+      }
+      if (NEW_SPACE_INDEX && newSpaceIndex) {
+        options.successMessage = options.successMessage.replace(MESSAGE_ARGS.NEW_SPACE_INDEX, newSpaceIndex.toString());
+        options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.NEW_SPACE_INDEX, newSpaceIndex.toString());
       }
       if (APP && app) {
         options.successMessage = options.successMessage.replace(MESSAGE_ARGS.APP, app);

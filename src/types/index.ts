@@ -82,6 +82,7 @@ export type MessageArgs = {
   SPACE_INDEX?: string;
   APP?: string;
   TITLE?: string;
+  NEW_SPACE_INDEX?: string;
 }
 
 export type YabaiCommandResult = {
