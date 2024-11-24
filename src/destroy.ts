@@ -1,8 +1,17 @@
-import { showHUD } from "@raycast/api";
-import { runYabaiCommand } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 
 export default async () => {
+  const SUCCESS_MESSAGE = {
+    title: "Destroyed space",
+    type: MessageType.SUCCESS,
+  };
+
+  if (!(await isYabaiRunning())) {
+    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    return;
+  } 
+
   try {
     const { stderr } = await runYabaiCommand("-m space --destroy");
 
@@ -10,10 +19,11 @@ export default async () => {
       throw new Error(stderr);
     }
 
-    showHUD("Yabai has been started.");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    showFailureToast(error, {
-      title: "Failed to start Yabai. Make sure you Yabai is installed.",
+    await showYabaiMessage({
+      title: "Failed to execute destroy command",
+      type: MessageType.ERROR,
     });
   }
 };

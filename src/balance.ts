@@ -1,19 +1,33 @@
-import { showHUD } from "@raycast/api";
-import { runYabaiCommand } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 
 export default async function Command() {
+  const SUCCESS_MESSAGE = {
+    title: "Balanced space",
+    type: MessageType.SUCCESS,
+  };
+
+  if (!(await isYabaiRunning())) {
+    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    return;
+  }
+
   try {
     const { stderr } = await runYabaiCommand("-m space --balance");
 
     if (stderr) {
-      throw new Error();
+      await showYabaiMessage({
+        title: "Unable to balance space",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
-    showHUD("Balanced space");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    showFailureToast(error, {
-      title: "Failed to balance space, make sure you have Yabai installed and running.",
+    await showYabaiMessage({
+      title: "Failed to execute balance command",
+      type: MessageType.ERROR,
     });
   }
 }

@@ -3,9 +3,9 @@ import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 
 export default async () => {
   const SUCCESS_MESSAGE = {
-    title: "Focused window below",
+    title: "Toggled window float",
     type: MessageType.SUCCESS,
-  };
+  };  
 
   if (!(await isYabaiRunning())) {
     await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
@@ -13,11 +13,12 @@ export default async () => {
   }
 
   try {
-    const { stderr } = await runYabaiCommand("-m window --focus south");
+
+    const { stderr } = await runYabaiCommand("-m window --toggle float");
 
     if (stderr) {
       await showYabaiMessage({
-        title: "Unable to focus window below",
+        title: "Unable to toggle window float",
         type: MessageType.INFO,
       });
       return;
@@ -26,8 +27,8 @@ export default async () => {
     await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
     await showYabaiMessage({
-      title: "No window to focus below",
-      type: MessageType.INFO,
+      title: "Failed to execute toggle float command",
+      type: MessageType.ERROR,
     });
   }
 };

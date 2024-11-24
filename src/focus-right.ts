@@ -1,19 +1,33 @@
-import { showHUD } from "@raycast/api";
-import { runYabaiCommand } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 
 export default async () => {
+  const SUCCESS_MESSAGE = {
+    title: "Focused window to the right",
+    type: MessageType.SUCCESS,
+  };
+
+  if (!(await isYabaiRunning())) {
+    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    return;
+  }
+
   try {
     const { stderr } = await runYabaiCommand("-m window --focus east");
 
     if (stderr) {
-      throw new Error(stderr);
+      await showYabaiMessage({
+        title: "Unable to focus window to the right",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
-    showHUD("Successfully focused window to the right.");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    showFailureToast(error, {
-      title: "Focus failed, please confirm if there are windows available to focus.",
+    await showYabaiMessage({
+      title: "No window to focus on the right",
+      type: MessageType.INFO,
     });
   }
 };

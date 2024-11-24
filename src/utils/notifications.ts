@@ -1,0 +1,35 @@
+import { showHUD } from "@raycast/api";
+
+export enum MessageType {
+  SUCCESS = "success",
+  INFO = "info",
+  ERROR = "error",
+}
+
+interface YabaiMessage {
+  title: string;
+  type?: MessageType;
+}
+
+export async function showYabaiMessage({ title, type = MessageType.INFO }: YabaiMessage) {
+  await showHUD(title);
+}
+
+// System and restriction messages
+export const MESSAGES = {
+  SYSTEM: {
+    YABAI_NOT_RUNNING: {
+      title: "Yabai is not running",
+      type: MessageType.ERROR,
+    },
+    WINDOW_NOT_FOUND: {
+      title: "No window found",
+    },
+  },
+  DIRECTION: {
+    NO_WINDOW_ABOVE: { title: "No window above" },
+    NO_WINDOW_BELOW: { title: "No window below" },
+    NO_WINDOW_LEFT: { title: "No window to the left" },
+    NO_WINDOW_RIGHT: { title: "No window to the right" },
+  },
+} as const; 

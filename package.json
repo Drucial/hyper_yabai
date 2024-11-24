@@ -19,8 +19,7 @@
         "yabai",
         "service",
         "start"
-      ],
-      "icon": "play.circle"
+      ]
     },
     {
       "name": "stop",
@@ -31,6 +30,17 @@
         "yabai",
         "service",
         "stop"
+      ]
+    },
+    {
+      "name": "restart",
+      "title": "Restart Yabai",
+      "description": "Restart the Yabai window management service",
+      "mode": "no-view",
+      "keywords": [
+        "yabai",
+        "service",
+        "restart"
       ]
     },
     {
@@ -52,6 +62,13 @@
           "required": false
         }
       ]
+    },
+    {
+      "name": "float",
+      "title": "Toggle Float",
+      "description": "Toggle float mode for the current window",
+      "mode": "no-view",
+      "keywords": ["window", "float", "toggle"]
     },
     {
       "name": "focus-up",
