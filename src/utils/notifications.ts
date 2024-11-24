@@ -1,9 +1,9 @@
 import { showHUD } from "@raycast/api";
 
 export enum MessageType {
-  SUCCESS = "success",
-  INFO = "info",
-  ERROR = "error",
+  SUCCESS = "SUCCESS",
+  ERROR = "ERROR",
+  INFO = "INFO"
 }
 
 interface YabaiMessage {
@@ -12,7 +12,18 @@ interface YabaiMessage {
 }
 
 export async function showYabaiMessage({ title, type = MessageType.INFO }: YabaiMessage) {
-  await showHUD(title);
+  switch (type) {
+    case MessageType.SUCCESS:
+      await showHUD(title);
+      break;
+    case MessageType.ERROR:
+      await showHUD("❌ " + title);
+      break;
+    case MessageType.INFO:
+    default:
+      await showHUD("ℹ️ " + title);
+      break;
+  }
 }
 
 // System and restriction messages
