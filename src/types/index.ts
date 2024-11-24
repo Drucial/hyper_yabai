@@ -73,5 +73,21 @@ export type CommandOptions = {
   successMessage: string;
   failureMessage: string;
   requiresWindow?: boolean;
+  requiresMultipleWindows?: boolean;
   validate?: () => Promise<ValidationResult>;
+}
+
+export type YabaiCommandResult = {
+  command: string;
+  escapedCommand: string;
+  exitCode: number;
+  signal: undefined | string;
+  signalDescription: undefined | string;
+  stdout: string;
+  stderr: string;
+  cwd: string;
+  failed: boolean;
+  timedOut: boolean;
+  isCanceled: boolean;
+  killed: boolean;
 }

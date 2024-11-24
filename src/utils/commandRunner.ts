@@ -4,11 +4,18 @@ import { isYabaiRunning, runYabaiCommand } from "../helpers/scripts";
 import { MESSAGES, showYabaiMessage } from "../utils/notifications";
 import { getWindowInfo } from "../helpers/window";
 import { CommandOptions } from "../types";
+import { getSpaceInfo, getSpaceWindows } from "../helpers/space";
+import { showFailureToast } from "@raycast/utils";
 
 async function checkFocusedWindow(): Promise<boolean> {
   try {
     const windowInfo = await getWindowInfo();
-    return windowInfo !== null;
+    const windowExists = windowInfo !== null;
+    console.log("windowInfo", windowInfo);
+    console.log("windowExists", windowExists);
+    const windowIsFocused = windowInfo?.hasFocus || false;
+    console.log("windowIsFocused", windowIsFocused);
+    return windowExists && windowIsFocused;
   } catch (error) {
     return false;
   }
@@ -23,11 +30,27 @@ export async function executeYabaiCommand(options: CommandOptions) {
 
   try {
     // Check for window requirement first
-    if (options.requiresWindow) {
-      const windowExists = await checkFocusedWindow();
-      if (!windowExists) {
+    if (options.requiresWindow || options.requiresMultipleWindows) {
+      const windowExistsAndIsFocused = await checkFocusedWindow();
+      console.log("windowExistsAndIsFocused", windowExistsAndIsFocused);
+      if (!windowExistsAndIsFocused) {
         await showYabaiMessage({
           title: "Command requires a focused window",
+          type: MessageType.INFO,
+        });
+        return;
+      }
+    }
+
+    // Check for multiple windows requirement
+    if (options.requiresMultipleWindows) {
+      const spacesInfo = await getSpaceInfo();
+      const windows = await getSpaceWindows()
+      const hasMultipleNonFloatingWindows = windows.filter(window => !window.isFloating).length > 1;
+
+      if (spacesInfo.windows.length < 2 || !hasMultipleNonFloatingWindows) {
+        await showYabaiMessage({
+          title: "Command requires multiple windows",
           type: MessageType.INFO,
         });
         return;
@@ -49,10 +72,11 @@ export async function executeYabaiCommand(options: CommandOptions) {
     // Execute command
     const { stderr } = await runYabaiCommand(options.command);
 
-    // Handle command execution errors
+    // Handle command execution failure
     if (stderr) {
+      console.log("stderr", stderr);
       await showYabaiMessage({
-        title: options.failureMessage,
+        title: "Failed to execute command",
         type: MessageType.INFO,
       });
       return;
@@ -63,11 +87,12 @@ export async function executeYabaiCommand(options: CommandOptions) {
       title: options.successMessage,
       type: MessageType.SUCCESS,
     });
-} catch (error) {
-    const errorMessage = options.requiresWindow && !await checkFocusedWindow()
-      ? "This command requires a focused window"
-      : options.failureMessage;
-    
-    throw new Error(errorMessage);
+  } catch (error: unknown) {
+    console.error(error);
+    if (error instanceof Error) {
+      showFailureToast(error.message);
+    } else {
+      showFailureToast('An unknown error occurred');
+    }
   }
-} 
+}
