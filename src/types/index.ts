@@ -91,3 +91,8 @@ export type YabaiCommandResult = {
   isCanceled: boolean;
   killed: boolean;
 }
+
+export type YabaiQueryResult<T> = {
+  data: T | null;
+  error: string | null;
+}

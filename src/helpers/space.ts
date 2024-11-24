@@ -1,26 +1,14 @@
-import { YabaiSpace, YabaiWindow } from "../types";
-import { runYabaiCommand } from "./scripts";
+import { YabaiQueryResult, YabaiSpace, YabaiWindow } from "../types";
+import { handleYabaiQuery } from "./scripts";
 
-export async function getSpaceInfo(): Promise<YabaiSpace> {
-  const result = await runYabaiCommand("-m query --spaces --space");
-  if ("stdout" in result) {
-    return result.stdout as YabaiSpace;
-  }
-  throw new Error(result.stderr);
+export async function getSpaceInfo(): Promise<YabaiQueryResult<YabaiSpace>> {
+  return handleYabaiQuery<YabaiSpace>("-m query --spaces --space");
 }
 
-export async function getSpaceWindows(): Promise<YabaiWindow[]> {
-  const result = await runYabaiCommand("-m query --windows --space");
-  if ("stdout" in result) {
-    return result.stdout as YabaiWindow[];
-  }
-  throw new Error(result.stderr);
+export async function getSpaceWindows(): Promise<YabaiQueryResult<YabaiWindow[]>> {
+  return handleYabaiQuery<YabaiWindow[]>("-m query --windows --space");
 }
 
-export async function getSpaces(): Promise<YabaiSpace[]> {
-  const result = await runYabaiCommand("-m query --spaces");
-  if ("stdout" in result) {
-    return result.stdout as YabaiSpace[];
-  }
-  throw new Error(result.stderr);
+export async function getSpaces(): Promise<YabaiQueryResult<YabaiSpace[]>> {
+  return handleYabaiQuery<YabaiSpace[]>("-m query --spaces");
 }
