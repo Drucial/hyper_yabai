@@ -20,7 +20,7 @@ export default async () => {
         title: "Unable to focus window to the right",
         type: MessageType.INFO,
       });
-      return;
+      return
     }
 
     await showYabaiMessage(SUCCESS_MESSAGE);

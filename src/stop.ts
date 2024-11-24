@@ -1,19 +1,33 @@
-import { showHUD } from "@raycast/api";
-import { runYabaiCommand } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
+import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
 
 export default async () => {
+  const SUCCESS_MESSAGE = {
+    title: "Yabai has been stopped.",
+    type: MessageType.SUCCESS,
+  };
+
+  if (!(await isYabaiRunning())) {
+    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    return;
+  }
+
   try {
     const { stderr } = await runYabaiCommand("--stop-service");
 
     if (stderr) {
-      throw new Error(stderr);
+      await showYabaiMessage({
+        title: "Failed to stop Yabai.",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
-    showHUD("Yabai has been stopped.");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    showFailureToast(error, {
+    await showYabaiMessage({
       title: "Failed to stop Yabai.",
+      type: MessageType.INFO,
     });
   }
 };

@@ -43,6 +43,58 @@ export async function getSpaceWindows() {
   return JSON.parse(stdout) as YabaiWindow[];
 }
 
+export function isWindowSplit(window: YabaiWindow, spaceWindows: YabaiWindow[]): boolean {
+  return spaceWindows.some(w => w.id !== window.id && w.frame.w > 0 && w.frame.h > 0);
+}
+
+type Direction = 'left' | 'right' | 'above' | 'below';
+
+export function hasAdjacentWindow(
+  currentWindow: YabaiWindow,
+  activeWindows: YabaiWindow[],
+  direction: Direction
+): boolean {
+  return activeWindows.some(window => {
+    switch (direction) {
+      case 'left':
+        return (
+          Math.abs((window.frame.x + window.frame.w) - currentWindow.frame.x) < POSITION_TOLERANCE &&
+          hasYOverlap(window, currentWindow)
+        );
+      case 'right':
+        return (
+          Math.abs(window.frame.x - (currentWindow.frame.x + currentWindow.frame.w)) < POSITION_TOLERANCE &&
+          hasYOverlap(window, currentWindow)
+        );
+      case 'above':
+        return (
+          Math.abs((window.frame.y + window.frame.h) - currentWindow.frame.y) < POSITION_TOLERANCE &&
+          hasXOverlap(window, currentWindow)
+        );
+      case 'below':
+        return (
+          Math.abs(window.frame.y - (currentWindow.frame.y + currentWindow.frame.h)) < POSITION_TOLERANCE &&
+          hasXOverlap(window, currentWindow)
+        );
+    }
+  });
+}
+
+// Helper functions to reduce duplication
+function hasXOverlap(window1: YabaiWindow, window2: YabaiWindow): boolean {
+  return (
+    window1.frame.x < (window2.frame.x + window2.frame.w) &&
+    (window1.frame.x + window1.frame.w) > window2.frame.x
+  );
+}
+
+function hasYOverlap(window1: YabaiWindow, window2: YabaiWindow): boolean {
+  return (
+    window1.frame.y < (window2.frame.y + window2.frame.h) &&
+    (window1.frame.y + window1.frame.h) > window2.frame.y
+  );
+}
+
 export async function getVerticalGrowCommand(): Promise<ResizeCommand | null> {
   const currentWindow = await getWindowInfo();
   const spaceWindows = await getSpaceWindows();
@@ -56,32 +108,14 @@ export async function getVerticalGrowCommand(): Promise<ResizeCommand | null> {
     w.frame.h > 0
   );
 
-  const hasWindowBelow = activeWindows.some(window => {
-    const isBelow = Math.abs(window.frame.y - (currentWindow.frame.y + currentWindow.frame.h)) < POSITION_TOLERANCE;
-    const hasXOverlap = (
-      window.frame.x < (currentWindow.frame.x + currentWindow.frame.w) &&
-      (window.frame.x + window.frame.w) > currentWindow.frame.x
-    );
-    return isBelow && hasXOverlap;
-  });
-
-  const hasWindowAbove = activeWindows.some(window => {
-    const isAbove = Math.abs((window.frame.y + window.frame.h) - currentWindow.frame.y) < POSITION_TOLERANCE;
-    const hasXOverlap = (
-      window.frame.x < (currentWindow.frame.x + currentWindow.frame.w) &&
-      (window.frame.x + window.frame.w) > currentWindow.frame.x
-    );
-    return isAbove && hasXOverlap;
-  });
-
-  if (hasWindowBelow) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'below')) {
     return {
       command: "-m window",
       args: `--resize bottom:0:${RESIZE_AMOUNT}`
     };
   }
 
-  if (hasWindowAbove) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'above')) {
     return {
       command: "-m window",
       args: `--resize top:0:-${RESIZE_AMOUNT}`
@@ -104,32 +138,14 @@ export async function getVerticalShrinkCommand(): Promise<ResizeCommand | null> 
     w.frame.h > 0
   );
 
-  const hasWindowBelow = activeWindows.some(window => {
-    const isBelow = Math.abs(window.frame.y - (currentWindow.frame.y + currentWindow.frame.h)) < POSITION_TOLERANCE;
-    const hasXOverlap = (
-      window.frame.x < (currentWindow.frame.x + currentWindow.frame.w) &&
-      (window.frame.x + window.frame.w) > currentWindow.frame.x
-    );
-    return isBelow && hasXOverlap;
-  });
-
-  const hasWindowAbove = activeWindows.some(window => {
-    const isAbove = Math.abs((window.frame.y + window.frame.h) - currentWindow.frame.y) < POSITION_TOLERANCE;
-    const hasXOverlap = (
-      window.frame.x < (currentWindow.frame.x + currentWindow.frame.w) &&
-      (window.frame.x + window.frame.w) > currentWindow.frame.x
-    );
-    return isAbove && hasXOverlap;
-  });
-
-  if (hasWindowBelow) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'below')) {
     return {
       command: "-m window",
       args: `--resize bottom:0:-${RESIZE_AMOUNT}`
     };
   }
 
-  if (hasWindowAbove) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'above')) {
     return {
       command: "-m window",
       args: `--resize top:0:${RESIZE_AMOUNT}`
@@ -152,32 +168,14 @@ export async function getHorizontalGrowCommand(): Promise<ResizeCommand | null> 
     w.frame.h > 0
   );
 
-  const hasWindowRight = activeWindows.some(window => {
-    const isRight = Math.abs(window.frame.x - (currentWindow.frame.x + currentWindow.frame.w)) < POSITION_TOLERANCE;
-    const hasYOverlap = (
-      window.frame.y < (currentWindow.frame.y + currentWindow.frame.h) &&
-      (window.frame.y + window.frame.h) > currentWindow.frame.y
-    );
-    return isRight && hasYOverlap;
-  });
-
-  const hasWindowLeft = activeWindows.some(window => {
-    const isLeft = Math.abs((window.frame.x + window.frame.w) - currentWindow.frame.x) < POSITION_TOLERANCE;
-    const hasYOverlap = (
-      window.frame.y < (currentWindow.frame.y + currentWindow.frame.h) &&
-      (window.frame.y + window.frame.h) > currentWindow.frame.y
-    );
-    return isLeft && hasYOverlap;
-  });
-
-  if (hasWindowRight) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'right')) {
     return {
       command: "-m window",
       args: `--resize right:${RESIZE_AMOUNT}:0`
     };
   }
 
-  if (hasWindowLeft) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'left')) {
     return {
       command: "-m window",
       args: `--resize left:-${RESIZE_AMOUNT}:0`
@@ -200,32 +198,14 @@ export async function getHorizontalShrinkCommand(): Promise<ResizeCommand | null
     w.frame.h > 0
   );
 
-  const hasWindowRight = activeWindows.some(window => {
-    const isRight = Math.abs(window.frame.x - (currentWindow.frame.x + currentWindow.frame.w)) < POSITION_TOLERANCE;
-    const hasYOverlap = (
-      window.frame.y < (currentWindow.frame.y + currentWindow.frame.h) &&
-      (window.frame.y + window.frame.h) > currentWindow.frame.y
-    );
-    return isRight && hasYOverlap;
-  });
-
-  const hasWindowLeft = activeWindows.some(window => {
-    const isLeft = Math.abs((window.frame.x + window.frame.w) - currentWindow.frame.x) < POSITION_TOLERANCE;
-    const hasYOverlap = (
-      window.frame.y < (currentWindow.frame.y + currentWindow.frame.h) &&
-      (window.frame.y + window.frame.h) > currentWindow.frame.y
-    );
-    return isLeft && hasYOverlap;
-  });
-
-  if (hasWindowRight) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'right')) {
     return {
       command: "-m window",
       args: `--resize right:-${RESIZE_AMOUNT}:0`
     };
   }
 
-  if (hasWindowLeft) {
+  if (hasAdjacentWindow(currentWindow, activeWindows, 'left')) {
     return {
       command: "-m window",
       args: `--resize left:${RESIZE_AMOUNT}:0`

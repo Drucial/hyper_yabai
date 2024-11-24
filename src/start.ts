@@ -1,19 +1,28 @@
-import { showHUD } from "@raycast/api";
+import { MessageType, showYabaiMessage } from "./utils/notifications";
 import { runYabaiCommand } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+
+const SUCCESS_MESSAGE = {
+  title: "Yabai has been started.",
+  type: MessageType.SUCCESS,
+};
 
 export default async () => {
   try {
     const { stderr } = await runYabaiCommand("--start-service");
 
     if (stderr) {
-      throw new Error(stderr);
+      await showYabaiMessage({
+        title: "Failed to start Yabai. Make sure you Yabai is installed.",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
-    showHUD("Yabai has been started.");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    showFailureToast(error, {
+    await showYabaiMessage({
       title: "Failed to start Yabai. Make sure you Yabai is installed.",
+      type: MessageType.INFO,
     });
   }
 };

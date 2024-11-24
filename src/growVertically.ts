@@ -1,35 +1,47 @@
-import { showHUD } from "@raycast/api";
-import { runYabaiCommand } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 import { getVerticalGrowCommand } from "./helpers/window";
 
 const growVertically = async () => {
+  const SUCCESS_MESSAGE = {
+    title: "Grew window vertically",
+    type: MessageType.SUCCESS,
+  };
+
+  if (!(await isYabaiRunning())) {
+    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    return;
+  }
+
   try {
-    console.log('Starting vertical grow command');
     const resizeCommand = await getVerticalGrowCommand();
     
-    console.log('Resize command:', resizeCommand);
 
     if (!resizeCommand) {
-      await showHUD("Cannot grow vertically - window must be in horizontal split");
+      await showYabaiMessage({
+        title: "Cannot grow vertically - window must be in horizontal split",
+        type: MessageType.INFO,
+      });
       return;
     }
 
     const fullCommand = `${resizeCommand.command} ${resizeCommand.args}`;
-    console.log('Executing command:', fullCommand);
 
     const { stderr } = await runYabaiCommand(fullCommand);
 
     if (stderr) {
-      console.log('Command error:', stderr);
-      throw new Error(stderr);
+      await showYabaiMessage({
+        title: "Failed to grow vertically",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
-    await showHUD("Grew window vertically");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    console.log('Error:', error);
-    await showFailureToast(error, {
+    await showYabaiMessage({
       title: "Failed to grow vertically",
+      type: MessageType.INFO,
     });
   }
 };

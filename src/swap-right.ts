@@ -1,19 +1,45 @@
-import { showHUD } from "@raycast/api";
-import { runYabaiCommand } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
+import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
+import { hasAdjacentWindow, getWindowInfo, getSpaceWindows } from "./helpers/window";
 
 export default async () => {
+  const SUCCESS_MESSAGE = {
+    title: "Successfully moved window to the right.",
+    type: MessageType.SUCCESS,
+  };
+
+  if (!(await isYabaiRunning())) {
+    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    return;
+  }
+
+  const currentWindow = await getWindowInfo();
+  const activeWindows = await getSpaceWindows();
+
+  if (!hasAdjacentWindow(currentWindow, activeWindows, 'right')) {
+    await showYabaiMessage({
+      title: "Move right failed, no window to swap with.",
+      type: MessageType.INFO,
+    });
+    return;
+  }
+
   try {
     const { stderr } = await runYabaiCommand("-m window --swap east");
 
     if (stderr) {
-      throw new Error(stderr);
+      await showYabaiMessage({
+        title: "Failed to move window right.",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
-    showHUD("Successfully moved window to the right.");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    showFailureToast(error, {
-      title: "Move failed, please confirm if there are windows available to move.",
+    await showYabaiMessage({
+      title: "Move failed, no window to swap with.",
+      type: MessageType.INFO,
     });
   }
 };

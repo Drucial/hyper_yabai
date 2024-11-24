@@ -1,19 +1,33 @@
-import { showHUD } from "@raycast/api";
-import { runYabaiCommand } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 
 export default async () => {
+  const SUCCESS_MESSAGE = {
+    title: "Rotated window tree",
+    type: MessageType.SUCCESS,
+  };
+
+  if (!(await isYabaiRunning())) {
+    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    return;
+  }
+
   try {
     const { stderr } = await runYabaiCommand("-m space --rotate 90");
 
     if (stderr) {
-      throw new Error();
+      await showYabaiMessage({
+        title: "Failed to rotate window tree",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
-    showHUD("Rotated window tree");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    showFailureToast(error, {
-      title: "Failed to rotate window tree, make sure you have Yabai installed and running.",
+    await showYabaiMessage({
+      title: "Failed to rotate window tree",
+      type: MessageType.INFO,
     });
   }
 };

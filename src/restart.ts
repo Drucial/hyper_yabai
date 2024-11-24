@@ -1,9 +1,17 @@
-
-import { showHUD } from "@raycast/api";
 import { runYabaiCommand, isYabaiRunning } from "./helpers/scripts";
-import { showFailureToast } from "@raycast/utils";
+import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 
 export default async () => {
+  const SUCCESS_MESSAGE = {
+    title: "Yabai has been restarted",
+    type: MessageType.SUCCESS,
+  };
+
+  if (!(await isYabaiRunning())) {
+    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+    return;
+  }
+
   try {
     const isRunning = await isYabaiRunning();
 
@@ -18,12 +26,16 @@ export default async () => {
     const { stderr } = await runYabaiCommand(command);
 
     if (stderr) {
-      throw new Error(stderr);
+      await showYabaiMessage({
+        title: "Failed to restart Yabai. Make sure you Yabai is installed.",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
-    showHUD("Yabai has been restarted.");
+    await showYabaiMessage(SUCCESS_MESSAGE);
   } catch (error) {
-    showFailureToast(error, {
+    await showYabaiMessage({
       title: "Failed to restart Yabai. Make sure you Yabai is installed.",
     });
   }

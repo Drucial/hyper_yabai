@@ -16,7 +16,11 @@ export default async () => {
     const { stderr } = await runYabaiCommand("-m window --focus west");
 
     if (stderr) {
-      throw new Error(stderr);
+      await showYabaiMessage({
+        title: "Unable to focus window on the left",
+        type: MessageType.INFO,
+      });
+      return;
     }
 
     await showYabaiMessage(SUCCESS_MESSAGE);
