@@ -1,4 +1,3 @@
-
 import { MessageType } from "./notifications";
 import { isYabaiRunning, runYabaiCommand } from "../helpers/scripts";
 import { MESSAGES, showYabaiMessage } from "../utils/notifications";
@@ -7,12 +6,19 @@ import { CommandOptions } from "../types";
 import { getSpaceInfo, getSpaceWindows } from "../helpers/space";
 import { showFailureToast } from "@raycast/utils";
 
+export const MESSAGE_ARGS: Record<string, string> = {
+  SPACE_INDEX: "$SPACE_INDEX",
+  APP: "$APP",
+  TITLE: "$TITLE",
+};
+
 async function checkFocusedWindow(): Promise<boolean> {
   try {
     const windowInfo = await getWindowInfo();
     if (!windowInfo.data) return false;
     const windowExists = windowInfo.data !== null;
-    const windowIsFocused = typeof windowInfo.data === 'object' && 'hasFocus' in windowInfo.data ? windowInfo.data.hasFocus : false;
+    const windowIsFocused =
+      typeof windowInfo.data === "object" && "hasFocus" in windowInfo.data ? windowInfo.data.hasFocus : false;
     return windowExists && windowIsFocused;
   } catch (error) {
     return false;
@@ -25,7 +31,6 @@ export async function executeYabaiCommand(options: CommandOptions) {
     await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
     return;
   }
-
 
   console.log("Executing command", options.command);
   try {
@@ -43,10 +48,10 @@ export async function executeYabaiCommand(options: CommandOptions) {
 
     // Check for multiple windows requirement
     if (options.requiresMultipleWindows) {
-      const windows = await getSpaceWindows()
+      const windows = await getSpaceWindows();
       if (!windows.data) return;
 
-      const hasMultipleNonFloatingWindows = windows.data.filter(window => !window.isFloating).length > 1;
+      const hasMultipleNonFloatingWindows = windows.data.filter((window) => !window.isFloating).length > 1;
 
       if (!hasMultipleNonFloatingWindows) {
         await showYabaiMessage({
@@ -57,29 +62,24 @@ export async function executeYabaiCommand(options: CommandOptions) {
       }
     }
 
-    console.log("options.MessageArgs", options.MessageArgs);
     if (options.MessageArgs) {
       const { SPACE_INDEX, APP, TITLE } = options.MessageArgs;
-
-      console.log("SPACE_INDEX", SPACE_INDEX);
-      console.log("APP", APP);
-      console.log("TITLE", TITLE);
 
       const spaceIndex = (await getSpaceInfo())?.data?.index;
       const app = (await getWindowInfo())?.data?.app;
       const title = (await getWindowInfo())?.data?.title;
 
       if (SPACE_INDEX && spaceIndex) {
-        options.successMessage = options.successMessage.replace("$SPACE_INDEX", spaceIndex.toString());
-        options.failureMessage = options.failureMessage.replace("$SPACE_INDEX", spaceIndex.toString());
+        options.successMessage = options.successMessage.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
+        options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
       }
       if (APP && app) {
-        options.successMessage = options.successMessage.replace("$APP", app);
-        options.failureMessage = options.failureMessage.replace("$APP", app);
+        options.successMessage = options.successMessage.replace(MESSAGE_ARGS.APP, app);
+        options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.APP, app);
       }
       if (TITLE && title) {
-        options.successMessage = options.successMessage.replace("$TITLE", title);
-        options.failureMessage = options.failureMessage.replace("$TITLE", title);
+        options.successMessage = options.successMessage.replace(MESSAGE_ARGS.TITLE, title);
+        options.failureMessage = options.failureMessage.replace(MESSAGE_ARGS.TITLE, title);
       }
     }
 
@@ -117,7 +117,7 @@ export async function executeYabaiCommand(options: CommandOptions) {
     if (error instanceof Error) {
       showFailureToast(error.message);
     } else {
-      showFailureToast('An unknown error occurred');
+      showFailureToast("An unknown error occurred");
     }
   }
 }
