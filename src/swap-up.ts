@@ -1,6 +1,7 @@
 import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { hasAdjacentWindow, getWindowInfo, getSpaceWindows } from "./helpers/window";
+import { hasAdjacentWindow, getWindowInfo } from "./helpers/window";
+import { getSpaceWindows } from "./helpers/space";
 
 export default async () => {
   const SUCCESS_MESSAGE = {

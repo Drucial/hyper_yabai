@@ -27,6 +27,7 @@ export async function executeYabaiCommand(options: CommandOptions) {
   }
 
 
+  console.log("Executing command", options.command);
   try {
     // Check for window requirement first
     if (options.requiresWindow || options.requiresMultipleWindows) {
