@@ -64,7 +64,7 @@ function hasYOverlap(window1: YabaiWindow, window2: YabaiWindow): boolean {
 async function getResizeCommand(
   direction: Direction,
   grow: boolean
-): Promise<ResizeCommand | null> {
+): Promise<string | null> {
   const currentWindow = await getWindowInfo();
   const spaceWindows = await getSpaceWindows();
   const space = await getSpaceInfo();
@@ -88,28 +88,25 @@ async function getResizeCommand(
   };
 
   if (hasAdjacentWindow(currentWindow.data, activeWindows, direction)) {
-    return {
-      command: "-m window",
-      args: `--resize ${resizeMap[direction]}`
-    };
+    return `-m window --resize ${resizeMap[direction]}`;
   }
 
   return null;
 }
 
-export async function getVerticalGrowCommand(): Promise<ResizeCommand | null> {
+export async function getVerticalGrowCommand(): Promise<string | null> {
   return getResizeCommand(Direction.SOUTH, true) || getResizeCommand(Direction.NORTH, true);
 }
 
-export async function getVerticalShrinkCommand(): Promise<ResizeCommand | null> {
+export async function getVerticalShrinkCommand(): Promise<string | null> {
   return getResizeCommand(Direction.SOUTH, false) || getResizeCommand(Direction.NORTH, false);
 }
 
-export async function getHorizontalGrowCommand(): Promise<ResizeCommand | null> {
+export async function getHorizontalGrowCommand(): Promise<string | null> {
   return getResizeCommand(Direction.EAST, true) || getResizeCommand(Direction.WEST, true);
 }
 
-export async function getHorizontalShrinkCommand(): Promise<ResizeCommand | null> {
+export async function getHorizontalShrinkCommand(): Promise<string | null> {
   return getResizeCommand(Direction.EAST, false) || getResizeCommand(Direction.WEST, false);
 }
 

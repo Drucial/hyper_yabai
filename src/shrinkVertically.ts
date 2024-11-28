@@ -1,46 +1,20 @@
-import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
 import { getVerticalShrinkCommand } from "./helpers/window";
-import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
+import { executeYabaiCommand } from "./utils/commandRunner";
+import { MessageType, showYabaiMessage } from "./utils/notifications";
 
-const shrinkVertically = async () => {
-  const SUCCESS_MESSAGE = {
-    title: "Shrank window vertically",
-    type: MessageType.SUCCESS,
-  };
+export default async () => {
+  const command = await getVerticalShrinkCommand();
 
-  if (!(await isYabaiRunning())) {
-    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
+  if (!command) {
+    showYabaiMessage({
+      title: "Cannot Shrink Vertically",
+      type: MessageType.INFO
+    });
     return;
   }
 
-  try {
-    const resizeCommand = await getVerticalShrinkCommand();
-
-    if (!resizeCommand) {
-      await showYabaiMessage({
-        title: "Cannot shrink vertically",
-        type: MessageType.INFO,
-      });
-      return;
-    }
-
-    const { stderr } = await runYabaiCommand(`${resizeCommand.command} ${resizeCommand.args}`);
-
-    if (stderr) {
-      await showYabaiMessage({
-        title: "Failed to shrink vertically",
-        type: MessageType.INFO,
-      });
-      return;
-    }
-
-    await showYabaiMessage(SUCCESS_MESSAGE);
-  } catch (error) {
-    await showYabaiMessage({
-      title: "Failed to shrink vertically",
-      type: MessageType.INFO,
-    });
-  }
-};
-
-export default shrinkVertically;
+  await executeYabaiCommand({
+    command,
+    failureMessage: "Failed to shrink window vertically",
+  });
+}
