@@ -7,9 +7,10 @@ export default async () => {
     command: "-m window --focus east",
     failureMessage: `No window to focus on the right`,
     validate: async () => {
+      const canFocusResult = await canFocus(Direction.EAST);
       return {
-        canProceed: await canFocus(Direction.EAST),
-        message: "No window right to focus",
+        canProceed: canFocusResult,
+        message: !canFocusResult ? "No window right to focus" : undefined
       };
     },
   });

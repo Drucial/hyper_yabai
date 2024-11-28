@@ -27,8 +27,8 @@ async function checkFocusedWindow(): Promise<boolean> {
 }
 
 export async function executeYabaiCommand(options: CommandOptions) {
-  // Check if yabai is running
-  if (!(await isYabaiRunning())) {
+  // Check if yabai is running and the command is not start-service
+  if (!(await isYabaiRunning()) && options.command !== "--start-service") {
     await showYabaiMessage({
       title: MESSAGES.SYSTEM.YABAI_NOT_RUNNING.title,
       type: MessageType.INFO,
@@ -69,7 +69,7 @@ export async function executeYabaiCommand(options: CommandOptions) {
       const { SPACE_INDEX, APP, TITLE, NEW_SPACE_INDEX } = options.MessageArgs;
       const spaces = await getSpaces();
       const spaceInfo = await getSpaceInfo();
-      const windowInfo = await getWindowInfo(); 
+      const windowInfo = await getWindowInfo();
       const spaceIndex = spaceInfo?.data?.index;
       const newSpaceIndex = spaces.data?.length ? spaces.data.length + 1 : 1;
       const app = windowInfo?.data?.app;
@@ -80,8 +80,14 @@ export async function executeYabaiCommand(options: CommandOptions) {
         options.failureMessage = options.failureMessage?.replace(MESSAGE_ARGS.SPACE_INDEX, spaceIndex.toString());
       }
       if (NEW_SPACE_INDEX && newSpaceIndex) {
-        options.successMessage = options.successMessage?.replace(MESSAGE_ARGS.NEW_SPACE_INDEX, newSpaceIndex.toString());
-        options.failureMessage = options.failureMessage?.replace(MESSAGE_ARGS.NEW_SPACE_INDEX, newSpaceIndex.toString());
+        options.successMessage = options.successMessage?.replace(
+          MESSAGE_ARGS.NEW_SPACE_INDEX,
+          newSpaceIndex.toString(),
+        );
+        options.failureMessage = options.failureMessage?.replace(
+          MESSAGE_ARGS.NEW_SPACE_INDEX,
+          newSpaceIndex.toString(),
+        );
       }
       if (APP && app) {
         options.successMessage = options.successMessage?.replace(MESSAGE_ARGS.APP, app);
@@ -93,9 +99,11 @@ export async function executeYabaiCommand(options: CommandOptions) {
       }
     }
 
+    // Run validation
+    const validationResult = options.validate ? await options.validate() : null;
+
     // Then run additional validations if they exist
-    if (options.validate) {
-      const validationResult = await options.validate();
+    if (validationResult) {
       if (!validationResult.canProceed) {
         await showYabaiMessage({
           title: validationResult.message || options.failureMessage,
@@ -124,6 +132,8 @@ export async function executeYabaiCommand(options: CommandOptions) {
         type: MessageType.SUCCESS,
       });
     }
+
+    return;
   } catch (error: unknown) {
     console.error("error", error);
     if (error instanceof Error) {

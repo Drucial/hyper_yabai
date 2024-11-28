@@ -1,28 +1,9 @@
-import { MessageType, showYabaiMessage } from "./utils/notifications";
-import { runYabaiCommand } from "./helpers/scripts";
-
-const SUCCESS_MESSAGE = {
-  title: "Yabai has been started.",
-  type: MessageType.SUCCESS,
-};
+import { executeYabaiCommand } from "./utils/commandRunner";
 
 export default async () => {
-  try {
-    const { stderr } = await runYabaiCommand("--start-service");
-
-    if (stderr) {
-      await showYabaiMessage({
-        title: "Failed to start Yabai. Make sure you Yabai is installed.",
-        type: MessageType.INFO,
-      });
-      return;
-    }
-
-    await showYabaiMessage(SUCCESS_MESSAGE);
-  } catch (error) {
-    await showYabaiMessage({
-      title: "Failed to start Yabai. Make sure you Yabai is installed.",
-      type: MessageType.INFO,
-    });
-  }
+  await executeYabaiCommand({
+    command: "--start-service",
+    successMessage: "Yabai has been started.",
+    failureMessage: "Failed to start Yabai. Make sure Yabai is installed.",
+  });
 };

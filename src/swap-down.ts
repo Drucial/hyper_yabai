@@ -9,7 +9,7 @@ export default async () => {
     validate: async () => {
       return {
         canProceed: await canFocus(Direction.SOUTH),
-        message: "No window above to swap with",
+        message: "No window below to swap with",
       }
     }
   });
