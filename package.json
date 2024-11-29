@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "hyper_yabai",
+  "name": "hyper-yabai",
   "title": "Hyper Yabai",
-  "description": "Control Yabai tiling window manager from Raycast.",
+  "description": "Uses Raycast as the command ceneter for controlling the Yabai tiling window manager",
   "icon": "yabai-icon-dark-512px.png",
   "author": "drucial_white",
   "categories": [
