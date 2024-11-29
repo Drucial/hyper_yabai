@@ -46,14 +46,14 @@ export async function handleYabaiQuery<T>(command: string): Promise<YabaiQueryRe
     if ("stdout" in result) {
       return { data: result.stdout as T, error: null };
     }
-    return { 
-      data: null, 
-      error: result.stderr || "Failed to execute yabai command" 
+    return {
+      data: null,
+      error: result.stderr || "Failed to execute yabai command",
     };
   } catch (error) {
-    return { 
-      data: null, 
-      error: error instanceof Error ? error.message : "Unknown error occurred" 
+    return {
+      data: null,
+      error: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
 }

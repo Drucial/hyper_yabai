@@ -114,11 +114,14 @@ async function getResizeCommand(direction: Direction, grow: boolean): Promise<st
 
 export const getResizeCommands = {
   vertical: {
-    grow: async () => (await getResizeCommand(Direction.SOUTH, true)) || (await getResizeCommand(Direction.NORTH, true)),
-    shrink: async () => (await getResizeCommand(Direction.SOUTH, false)) || (await getResizeCommand(Direction.NORTH, false)),
+    grow: async () =>
+      (await getResizeCommand(Direction.SOUTH, true)) || (await getResizeCommand(Direction.NORTH, true)),
+    shrink: async () =>
+      (await getResizeCommand(Direction.SOUTH, false)) || (await getResizeCommand(Direction.NORTH, false)),
   },
   horizontal: {
     grow: async () => (await getResizeCommand(Direction.EAST, true)) || (await getResizeCommand(Direction.WEST, true)),
-    shrink: async () => (await getResizeCommand(Direction.EAST, false)) || (await getResizeCommand(Direction.WEST, false)),
+    shrink: async () =>
+      (await getResizeCommand(Direction.EAST, false)) || (await getResizeCommand(Direction.WEST, false)),
   },
 };

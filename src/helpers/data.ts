@@ -13,18 +13,17 @@ export const formatOutput = (data: string) => {
  */
 export function toCamelCase<T extends object>(obj: T): { [key: string]: T[keyof T] } {
   if (Array.isArray(obj)) {
-    return obj.map(item => (typeof item === 'object' && item !== null ? toCamelCase(item) : item));
-  } else if (obj !== null && typeof obj === 'object') {
+    // @ts-expect-error: Suppress the error about returning an array
+    return obj.map((item) => (typeof item === "object" && item !== null ? toCamelCase(item) : item));
+  } else if (obj !== null && typeof obj === "object") {
     return Object.entries(obj).reduce((acc, [key, value]) => {
       // Convert key to camelCase
       const camelKey = key.replace(/([-_][a-z])/gi, ($1) => {
-        return $1.toUpperCase().replace('-', '').replace('_', '');
+        return $1.toUpperCase().replace("-", "").replace("_", "");
       });
 
       // Handle nested objects and arrays
-      const newValue = value && typeof value === 'object'
-        ? toCamelCase(value)
-        : value;
+      const newValue = value && typeof value === "object" ? toCamelCase(value) : value;
 
       return { ...acc, [camelKey]: newValue };
     }, {});

@@ -10,7 +10,7 @@ export default async () => {
       return {
         canProceed: await canFocus(Direction.SOUTH),
         message: "No window below to swap with",
-      }
-    }
+      };
+    },
   });
 };

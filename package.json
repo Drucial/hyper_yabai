@@ -4,7 +4,7 @@
   "title": "Hyper Yabai",
   "description": "Control Yabai tiling window manager from Raycast.",
   "icon": "yabai-icon-dark-512px.png",
-  "author": "Drucial",
+  "author": "drucial",
   "categories": [
     "Productivity",
     "System"
@@ -591,4 +591,4 @@
     "lint": "ray lint",
     "publish": "npx @raycast/api@latest publish"
   }
-
+}

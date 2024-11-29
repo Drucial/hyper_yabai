@@ -18,7 +18,7 @@ export default async () => {
         };
       }
 
-      const spaceIndex = (data?.index ?? 1) - 1 as SpaceIndex;
+      const spaceIndex = ((data?.index ?? 1) - 1) as SpaceIndex;
 
       const { validated, message } = await canFocusSpace(spaceIndex);
 

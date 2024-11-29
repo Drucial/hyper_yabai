@@ -13,7 +13,7 @@ export async function getActiveSpaceWindows(): Promise<YabaiQueryResult<YabaiWin
   const windows = await getSpaceWindows();
   if (!windows.data) return windows;
 
-  const activeWindows = windows.data.filter(w => w.canResize && w.canMove) as YabaiWindow[];
+  const activeWindows = windows.data.filter((w) => w.canResize && w.canMove) as YabaiWindow[];
   return { data: activeWindows, error: windows.error };
 }
 

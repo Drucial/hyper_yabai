@@ -68,7 +68,7 @@ export type YabaiSpace = {
 export type ValidationResult = {
   canProceed: boolean;
   message?: string;
-}
+};
 
 export type CommandOptions = {
   command: string;
@@ -78,14 +78,14 @@ export type CommandOptions = {
   requiresMultipleWindows?: boolean;
   MessageArgs?: MessageArgs;
   validate?: () => Promise<ValidationResult>;
-}
+};
 
 export type MessageArgs = {
   SPACE_INDEX?: string;
   APP?: string;
   TITLE?: string;
   NEW_SPACE_INDEX?: string;
-}
+};
 
 export type YabaiCommandResult = {
   command: string;
@@ -100,9 +100,9 @@ export type YabaiCommandResult = {
   timedOut: boolean;
   isCanceled: boolean;
   killed: boolean;
-}
+};
 
 export type YabaiQueryResult<T> = {
   data: T | null;
   error: string | null;
-}
+};

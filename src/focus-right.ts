@@ -10,7 +10,7 @@ export default async () => {
       const canFocusResult = await canFocus(Direction.EAST);
       return {
         canProceed: canFocusResult,
-        message: !canFocusResult ? "No window right to focus" : undefined
+        message: !canFocusResult ? "No window right to focus" : undefined,
       };
     },
   });

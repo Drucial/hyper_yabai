@@ -3,7 +3,7 @@ import { showHUD } from "@raycast/api";
 export enum MessageType {
   SUCCESS = "SUCCESS",
   ERROR = "ERROR",
-  INFO = "INFO"
+  INFO = "INFO",
 }
 
 interface YabaiMessage {
@@ -43,4 +43,4 @@ export const MESSAGES = {
     NO_WINDOW_LEFT: { title: "No window to the left" },
     NO_WINDOW_RIGHT: { title: "No window to the right" },
   },
-} as const; 
+} as const;

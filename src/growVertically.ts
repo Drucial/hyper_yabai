@@ -8,7 +8,7 @@ export default async () => {
   if (!command) {
     showYabaiMessage({
       title: "Cannot Grow Vertically",
-      type: MessageType.INFO
+      type: MessageType.INFO,
     });
     return;
   }
@@ -17,4 +17,4 @@ export default async () => {
     command,
     failureMessage: "Failed to grow window vertically",
   });
-}
+};
