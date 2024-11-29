@@ -17,6 +17,8 @@ Control [Yabai](https://github.com/koekeishiya/yabai) window management directly
 
 This extension follows Yabai's traditional shortcut patterns. All shortcuts need to be manually configured in Raycast preferences:
 
+## Example Keybinds: 
+
 ### Window Management
 - Focus Window: `⌥ + [h,j,k,l]`
   - `⌥h` - Focus left
@@ -175,7 +177,7 @@ Click on any feature to copy its branch name or create a PR:
   ```
 
 ### Window Float Controls
-- [ ] [Add float toggle commands](https://github.com/drucial/raycast-yabai/compare/main...feature/add-float-controls?quick_pull=1&title=feat:+Add+float+control+commands&body=Add+float+and+sticky+window+toggle+commands%0A%0ABranch+name:+`feature/add-float-controls`)
+- [x] [Add float toggle commands](https://github.com/drucial/raycast-yabai/compare/main...feature/add-float-controls?quick_pull=1&title=feat:+Add+float+control+commands&body=Add+float+and+sticky+window+toggle+commands%0A%0ABranch+name:+`feature/add-float-controls`)
   ```
   git checkout -b feature/add-float-controls
   ```
@@ -185,13 +187,13 @@ Click on any feature to copy its branch name or create a PR:
   ```
   git checkout -b feature/add-mirror-commands
   ```
-- [ ] [Add layout toggle command](https://github.com/drucial/raycast-yabai/compare/main...feature/add-layout-toggle?quick_pull=1&title=feat:+Add+layout+toggle+command&body=Add+bsp/float+layout+toggle+command%0A%0ABranch+name:+`feature/add-layout-toggle`)
+- [x] [Add layout toggle command](https://github.com/drucial/raycast-yabai/compare/main...feature/add-layout-toggle?quick_pull=1&title=feat:+Add+layout+toggle+command&body=Add+bsp/float+layout+toggle+command%0A%0ABranch+name:+`feature/add-layout-toggle`)
   ```
   git checkout -b feature/add-layout-toggle
   ```
 
 ### Window Insertion
-- [ ] [Add split type toggle](https://github.com/drucial/raycast-yabai/compare/main...feature/add-split-toggle?quick_pull=1&title=feat:+Add+split+type+toggle&body=Add+vertical/horizontal+split+toggle+command%0A%0ABranch+name:+`feature/add-split-toggle`)
+- [x] [Add split type toggle](https://github.com/drucial/raycast-yabai/compare/main...feature/add-split-toggle?quick_pull=1&title=feat:+Add+split+type+toggle&body=Add+vertical/horizontal+split+toggle+command%0A%0ABranch+name:+`feature/add-split-toggle`)
   ```
   git checkout -b feature/add-split-toggle
   ```
@@ -215,7 +217,7 @@ Click on any feature to copy its branch name or create a PR:
   - Support searching and filtering
 
 ### Service Management
-- [ ] [Add restart command](https://github.com/your-username/raycast-yabai/compare/main...feature/add-restart-command?quick_pull=1&title=feat:+Add+restart+command&body=Add+command+to+restart+Yabai+service%0A%0AFeatures:%0A-+Gracefully+stop+Yabai%0A-+Wait+for+service+to+stop%0A-+Start+Yabai+again%0A-+Verify+service+is+running%0A%0ABranch+name:+`feature/add-restart-command`)
+- [x] [Add restart command](https://github.com/your-username/raycast-yabai/compare/main...feature/add-restart-command?quick_pull=1&title=feat:+Add+restart+command&body=Add+command+to+restart+Yabai+service%0A%0AFeatures:%0A-+Gracefully+stop+Yabai%0A-+Wait+for+service+to+stop%0A-+Start+Yabai+again%0A-+Verify+service+is+running%0A%0ABranch+name:+`feature/add-restart-command`)
   ```
   git checkout -b feature/add-restart-command
   ```
