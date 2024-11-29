@@ -87,18 +87,9 @@ async function getResizeCommand(direction: Direction, grow: boolean): Promise<st
 
   const canGrow = await canFocus(direction);
 
-  console.log(direction, canGrow);
-
   if (!canGrow) {
     return null;
   }
-
-  const resizeMap = {
-    [Direction.NORTH]: "top",
-    [Direction.SOUTH]: "bottom",
-    [Direction.EAST]: "right",
-    [Direction.WEST]: "left",
-  };
 
   const resizeAmount = grow ? RESIZE_AMOUNT : -RESIZE_AMOUNT;
   let command = "";
@@ -118,7 +109,6 @@ async function getResizeCommand(direction: Direction, grow: boolean): Promise<st
       break;
   }
 
-  console.log(command);
   return command;
 }
 
