@@ -77,7 +77,7 @@ async function getResizeCommand(direction: Direction, grow: boolean): Promise<st
   const spaceWindows = spaceWindowsResult.data;
   const space = spaceResult.data;
 
-  if (!window || !spaceWindows || !space) {
+  if (!window || !spaceWindows || !space || space.type !== "bsp") {
     return null;
   }
 
@@ -101,8 +101,23 @@ async function getResizeCommand(direction: Direction, grow: boolean): Promise<st
   };
 
   const resizeAmount = grow ? RESIZE_AMOUNT : -RESIZE_AMOUNT;
+  let command = "";
 
-  const command = `-m window --resize ${resizeMap[direction]}:${resizeAmount}:0`;
+  switch (direction) {
+    case Direction.NORTH:
+      command = `-m window --resize top:0:${-resizeAmount}`;
+      break;
+    case Direction.SOUTH:
+      command = `-m window --resize bottom:0:${resizeAmount}`;
+      break;
+    case Direction.EAST:
+      command = `-m window --resize right:${resizeAmount}:0`;
+      break;
+    case Direction.WEST:
+      command = `-m window --resize left:${-resizeAmount}:0`;
+      break;
+  }
+
   console.log(command);
   return command;
 }
