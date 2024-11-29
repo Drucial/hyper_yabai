@@ -1,216 +1,124 @@
-import { runYabaiCommand } from "./scripts";
+import { Direction, YabaiWindow, YabaiQueryResult, YabaiSpace } from "../types";
+import { handleYabaiQuery } from "./scripts";
+import { getActiveSpaceWindows, getSpaceInfo, getSpaceWindows } from "./space";
 
-const RESIZE_AMOUNT = 50;
+const RESIZE_AMOUNT = 100;
 const POSITION_TOLERANCE = 20;
 
-export interface YabaiWindow {
-  frame: {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-  };
-  id: number;
-  "split-type": string;
-  display: number;
-}
-
-export interface YabaiSpace {
-  type: string;
-  index: number;
-}
-
-export interface ResizeCommand {
+export type ResizeCommand = {
   command: string;
   args: string;
+};
+
+export async function getWindowInfo(): Promise<YabaiQueryResult<YabaiWindow>> {
+  return handleYabaiQuery<YabaiWindow>("-m query --windows --window");
 }
 
-async function getSpaceInfo(): Promise<YabaiSpace> {
-  const { stdout, stderr } = await runYabaiCommand("-m query --spaces --space");
-  if (stderr) throw new Error(stderr);
-  return JSON.parse(stdout);
-}
+export async function canFocus(direction: Direction): Promise<boolean> {
+  const windowInfo = await getWindowInfo();
+  const spaceWindows = await getSpaceWindows();
 
-export async function getWindowInfo() {
-  const { stdout, stderr } = await runYabaiCommand("-m query --windows --window");
-  if (stderr) throw new Error(stderr);
-  return JSON.parse(stdout) as YabaiWindow;
-}
+  if (!windowInfo.data || !spaceWindows.data || spaceWindows.data.length < 2) return false;
 
-export async function getSpaceWindows() {
-  const { stdout, stderr } = await runYabaiCommand("-m query --windows --space");
-  if (stderr) throw new Error(stderr);
-  return JSON.parse(stdout) as YabaiWindow[];
+  return hasAdjacentWindow(windowInfo.data, spaceWindows.data, direction);
 }
 
 export function isWindowSplit(window: YabaiWindow, spaceWindows: YabaiWindow[]): boolean {
-  return spaceWindows.some(w => w.id !== window.id && w.frame.w > 0 && w.frame.h > 0);
+  return spaceWindows.some((w) => w.id !== window.id && w.frame.w > 0 && w.frame.h > 0);
 }
-
-type Direction = 'left' | 'right' | 'above' | 'below';
 
 export function hasAdjacentWindow(
   currentWindow: YabaiWindow,
   activeWindows: YabaiWindow[],
-  direction: Direction
+  direction: Direction,
 ): boolean {
-  return activeWindows.some(window => {
+  return activeWindows.some((window) => {
+    const { x, y, w, h } = window.frame;
+    const { x: cx, y: cy, w: cw, h: ch } = currentWindow.frame;
+
     switch (direction) {
-      case 'left':
-        return (
-          Math.abs((window.frame.x + window.frame.w) - currentWindow.frame.x) < POSITION_TOLERANCE &&
-          hasYOverlap(window, currentWindow)
-        );
-      case 'right':
-        return (
-          Math.abs(window.frame.x - (currentWindow.frame.x + currentWindow.frame.w)) < POSITION_TOLERANCE &&
-          hasYOverlap(window, currentWindow)
-        );
-      case 'above':
-        return (
-          Math.abs((window.frame.y + window.frame.h) - currentWindow.frame.y) < POSITION_TOLERANCE &&
-          hasXOverlap(window, currentWindow)
-        );
-      case 'below':
-        return (
-          Math.abs(window.frame.y - (currentWindow.frame.y + currentWindow.frame.h)) < POSITION_TOLERANCE &&
-          hasXOverlap(window, currentWindow)
-        );
+      case Direction.WEST:
+        return Math.abs(x + w - cx) < POSITION_TOLERANCE && hasYOverlap(window, currentWindow);
+      case Direction.EAST:
+        return Math.abs(x - (cx + cw)) < POSITION_TOLERANCE && hasYOverlap(window, currentWindow);
+      case Direction.NORTH:
+        return Math.abs(y + h - cy) < POSITION_TOLERANCE && hasXOverlap(window, currentWindow);
+      case Direction.SOUTH:
+        return Math.abs(y - (cy + ch)) < POSITION_TOLERANCE && hasXOverlap(window, currentWindow);
     }
   });
 }
 
-// Helper functions to reduce duplication
 function hasXOverlap(window1: YabaiWindow, window2: YabaiWindow): boolean {
-  return (
-    window1.frame.x < (window2.frame.x + window2.frame.w) &&
-    (window1.frame.x + window1.frame.w) > window2.frame.x
-  );
+  const { x, w } = window1.frame;
+  const { x: x2, w: w2 } = window2.frame;
+  return x < x2 + w2 && x + w > x2;
 }
 
 function hasYOverlap(window1: YabaiWindow, window2: YabaiWindow): boolean {
-  return (
-    window1.frame.y < (window2.frame.y + window2.frame.h) &&
-    (window1.frame.y + window1.frame.h) > window2.frame.y
-  );
+  const { y, h } = window1.frame;
+  const { y: y2, h: h2 } = window2.frame;
+  return y < y2 + h2 && y + h > y2;
 }
 
-export async function getVerticalGrowCommand(): Promise<ResizeCommand | null> {
-  const currentWindow = await getWindowInfo();
-  const spaceWindows = await getSpaceWindows();
-  const space = await getSpaceInfo();
-
-  if (space.type !== "bsp") return null;
-
-  const activeWindows = spaceWindows.filter(w => 
-    w.id !== currentWindow.id && 
-    w.frame.w > 0 && 
-    w.frame.h > 0
-  );
-
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'below')) {
-    return {
-      command: "-m window",
-      args: `--resize bottom:0:${RESIZE_AMOUNT}`
-    };
-  }
-
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'above')) {
-    return {
-      command: "-m window",
-      args: `--resize top:0:-${RESIZE_AMOUNT}`
-    };
-  }
-
-  return null;
+async function canResize(window: YabaiWindow, space: YabaiSpace): Promise<boolean> {
+  return window.canResize && window.splitType !== "none" && space.type === "bsp" && !window.isFloating;
 }
 
-export async function getVerticalShrinkCommand(): Promise<ResizeCommand | null> {
-  const currentWindow = await getWindowInfo();
-  const spaceWindows = await getSpaceWindows();
-  const space = await getSpaceInfo();
+// Main resize function
+async function getResizeCommand(direction: Direction, grow: boolean): Promise<string | null> {
+  const [windowResult, spaceWindowsResult, spaceResult] = await Promise.all([
+    getWindowInfo(),
+    getActiveSpaceWindows(),
+    getSpaceInfo(),
+  ]);
 
-  if (space.type !== "bsp") return null;
+  const window = windowResult.data;
+  const spaceWindows = spaceWindowsResult.data;
+  const space = spaceResult.data;
 
-  const activeWindows = spaceWindows.filter(w => 
-    w.id !== currentWindow.id && 
-    w.frame.w > 0 && 
-    w.frame.h > 0
-  );
-
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'below')) {
-    return {
-      command: "-m window",
-      args: `--resize bottom:0:-${RESIZE_AMOUNT}`
-    };
+  if (!window || !spaceWindows || !space || space.type !== "bsp") {
+    return null;
   }
 
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'above')) {
-    return {
-      command: "-m window",
-      args: `--resize top:0:${RESIZE_AMOUNT}`
-    };
+  if (!(await canResize(window, space))) {
+    return null;
   }
 
-  return null;
+  const canGrow = await canFocus(direction);
+
+  if (!canGrow) {
+    return null;
+  }
+
+  const resizeAmount = grow ? RESIZE_AMOUNT : -RESIZE_AMOUNT;
+  let command = "";
+
+  switch (direction) {
+    case Direction.NORTH:
+      command = `-m window --resize top:0:${-resizeAmount}`;
+      break;
+    case Direction.SOUTH:
+      command = `-m window --resize bottom:0:${resizeAmount}`;
+      break;
+    case Direction.EAST:
+      command = `-m window --resize right:${resizeAmount}:0`;
+      break;
+    case Direction.WEST:
+      command = `-m window --resize left:${-resizeAmount}:0`;
+      break;
+  }
+
+  return command;
 }
 
-export async function getHorizontalGrowCommand(): Promise<ResizeCommand | null> {
-  const currentWindow = await getWindowInfo();
-  const spaceWindows = await getSpaceWindows();
-  const space = await getSpaceInfo();
-
-  if (space.type !== "bsp") return null;
-
-  const activeWindows = spaceWindows.filter(w => 
-    w.id !== currentWindow.id && 
-    w.frame.w > 0 && 
-    w.frame.h > 0
-  );
-
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'right')) {
-    return {
-      command: "-m window",
-      args: `--resize right:${RESIZE_AMOUNT}:0`
-    };
-  }
-
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'left')) {
-    return {
-      command: "-m window",
-      args: `--resize left:-${RESIZE_AMOUNT}:0`
-    };
-  }
-
-  return null;
-}
-
-export async function getHorizontalShrinkCommand(): Promise<ResizeCommand | null> {
-  const currentWindow = await getWindowInfo();
-  const spaceWindows = await getSpaceWindows();
-  const space = await getSpaceInfo();
-
-  if (space.type !== "bsp") return null;
-
-  const activeWindows = spaceWindows.filter(w => 
-    w.id !== currentWindow.id && 
-    w.frame.w > 0 && 
-    w.frame.h > 0
-  );
-
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'right')) {
-    return {
-      command: "-m window",
-      args: `--resize right:-${RESIZE_AMOUNT}:0`
-    };
-  }
-
-  if (hasAdjacentWindow(currentWindow, activeWindows, 'left')) {
-    return {
-      command: "-m window",
-      args: `--resize left:${RESIZE_AMOUNT}:0`
-    };
-  }
-
-  return null;
-} 
+export const getResizeCommands = {
+  vertical: {
+    grow: async () => (await getResizeCommand(Direction.SOUTH, true)) || (await getResizeCommand(Direction.NORTH, true)),
+    shrink: async () => (await getResizeCommand(Direction.SOUTH, false)) || (await getResizeCommand(Direction.NORTH, false)),
+  },
+  horizontal: {
+    grow: async () => (await getResizeCommand(Direction.EAST, true)) || (await getResizeCommand(Direction.WEST, true)),
+    shrink: async () => (await getResizeCommand(Direction.EAST, false)) || (await getResizeCommand(Direction.WEST, false)),
+  },
+};

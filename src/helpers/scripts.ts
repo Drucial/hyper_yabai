@@ -1,6 +1,8 @@
 import { getPreferenceValues, showHUD } from "@raycast/api";
 import { execaCommand } from "execa";
 import { userInfo } from "os";
+import { formatOutput } from "./data";
+import { YabaiQueryResult } from "../types";
 
 const userEnv = `env USER=${userInfo().username}`;
 
@@ -30,9 +32,28 @@ export const runYabaiCommand = async (command: string) => {
 
   try {
     const result = await execaCommand([userEnv, yabaiExecutablePath, command].join(" "));
-    return result;
+    const formattedOutput = formatOutput(result.stdout);
+    return { stdout: formattedOutput, stderr: result.stderr };
   } catch (error) {
     console.error("An error occurred while executing the Yabai command:", error);
     throw error;
   }
 };
+
+export async function handleYabaiQuery<T>(command: string): Promise<YabaiQueryResult<T>> {
+  try {
+    const result = await runYabaiCommand(command);
+    if ("stdout" in result) {
+      return { data: result.stdout as T, error: null };
+    }
+    return { 
+      data: null, 
+      error: result.stderr || "Failed to execute yabai command" 
+    };
+  } catch (error) {
+    return { 
+      data: null, 
+      error: error instanceof Error ? error.message : "Unknown error occurred" 
+    };
+  }
+}

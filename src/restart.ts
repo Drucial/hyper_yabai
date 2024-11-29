@@ -1,42 +1,9 @@
-import { runYabaiCommand, isYabaiRunning } from "./helpers/scripts";
-import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
+import { executeYabaiCommand } from "./utils/commandRunner";
 
 export default async () => {
-  const SUCCESS_MESSAGE = {
-    title: "Yabai has been restarted",
-    type: MessageType.SUCCESS,
-  };
-
-  if (!(await isYabaiRunning())) {
-    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
-    return;
-  }
-
-  try {
-    const isRunning = await isYabaiRunning();
-
-    let command;
-
-    if (!isRunning) {
-      command = "--start-service";
-    } else {
-      command = "--restart-service";
-    }
-
-    const { stderr } = await runYabaiCommand(command);
-
-    if (stderr) {
-      await showYabaiMessage({
-        title: "Failed to restart Yabai. Make sure you Yabai is installed.",
-        type: MessageType.INFO,
-      });
-      return;
-    }
-
-    await showYabaiMessage(SUCCESS_MESSAGE);
-  } catch (error) {
-    await showYabaiMessage({
-      title: "Failed to restart Yabai. Make sure you Yabai is installed.",
-    });
-  }
+  await executeYabaiCommand({
+    command: "--restart-service",
+    successMessage: "Yabai has been restarted",
+    failureMessage: "Failed to restart Yabai. Make sure Yabai is installed.",
+  });
 };

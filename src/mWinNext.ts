@@ -1,33 +1,30 @@
-import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
+import { executeYabaiCommand } from "./utils/commandRunner";
+import { getSpaceInfo, canFocusSpace, getSpaces } from "./helpers/space";
+import { SpaceIndex } from "./types";
 
 export default async () => {
-  const SUCCESS_MESSAGE = {
-    title: "Moved window to next space",
-    type: MessageType.SUCCESS,
-  };
+  await executeYabaiCommand({
+    command: "-m window --space next --focus",
+    successMessage: "Moved window to next space",
+    failureMessage: "Failed to move window to next space",
+    requiresWindow: true,
+    validate: async () => {
+      const { data } = await getSpaceInfo();
+      const { data: spaces } = await getSpaces();
 
-  if (!(await isYabaiRunning())) {
-    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
-    return;
-  }
+      if (data?.index === spaces?.length) {
+        return {
+          canProceed: false,
+          message: "Already on the last space",
+        };
+      }
 
-  try {
-    const { stderr } = await runYabaiCommand("-m window --space next --focus");
-
-    if (stderr) {
-      await showYabaiMessage({
-        title: "Failed to move window to next space",
-        type: MessageType.INFO,
-      });
-      return;
-    }
-
-    await showYabaiMessage(SUCCESS_MESSAGE);
-  } catch (error) {
-    await showYabaiMessage({
-      title: "Failed to start Yabai. Make sure you Yabai is installed.",
-      type: MessageType.INFO,
-    });
-  }
+      const spaceIndex = (data?.index ?? 1) + 1 as SpaceIndex;
+      const { validated, message } = await canFocusSpace(spaceIndex);
+      return {
+        canProceed: validated,
+        message: validated ? undefined : message,
+      };
+    },
+  });
 };

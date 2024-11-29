@@ -7,7 +7,7 @@ export enum MessageType {
 }
 
 interface YabaiMessage {
-  title: string;
+  title: string | Readonly<string>;
   type?: MessageType;
 }
 

@@ -1,33 +1,13 @@
-import { isYabaiRunning, runYabaiCommand } from "./helpers/scripts";
-import { MESSAGES, MessageType, showYabaiMessage } from "./utils/notifications";
+import { executeYabaiCommand, MESSAGE_ARGS } from "./utils/commandRunner";
 
 export default async function Command() {
-  const SUCCESS_MESSAGE = {
-    title: "Balanced space",
-    type: MessageType.SUCCESS,
-  };
-
-  if (!(await isYabaiRunning())) {
-    await showYabaiMessage(MESSAGES.SYSTEM.YABAI_NOT_RUNNING);
-    return;
-  }
-
-  try {
-    const { stderr } = await runYabaiCommand("-m space --balance");
-
-    if (stderr) {
-      await showYabaiMessage({
-        title: "Unable to balance space",
-        type: MessageType.INFO,
-      });
-      return;
-    }
-
-    await showYabaiMessage(SUCCESS_MESSAGE);
-  } catch (error) {
-    await showYabaiMessage({
-      title: "Failed to execute balance command",
-      type: MessageType.ERROR,
-    });
-  }
+  await executeYabaiCommand({
+    command: "-m space --balance",
+    successMessage: `Balanced space ${MESSAGE_ARGS.SPACE_INDEX}`,
+    failureMessage: `Failed to balance space ${MESSAGE_ARGS.SPACE_INDEX}`,
+    requiresMultipleWindows: true,
+    MessageArgs: {
+      SPACE_INDEX: MESSAGE_ARGS.SPACE_INDEX,
+    },
+  });
 }
