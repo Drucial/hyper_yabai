@@ -65,21 +65,6 @@ async function canResize(window: YabaiWindow, space: YabaiSpace): Promise<boolea
   return window.canResize && window.splitType !== "none" && space.type === "bsp" && !window.isFloating;
 }
 
-type ResizeDirection = {
-  [K in Direction]: {
-    axis: "top" | "bottom" | "left" | "right";
-    sign: 1 | -1;
-  };
-};
-
-// Constants
-const RESIZE_DIRECTIONS: ResizeDirection = {
-  [Direction.NORTH]: { axis: "top", sign: -1 },
-  [Direction.SOUTH]: { axis: "bottom", sign: 1 },
-  [Direction.EAST]: { axis: "right", sign: 1 },
-  [Direction.WEST]: { axis: "left", sign: -1 },
-} as const;
-
 // Main resize function
 async function getResizeCommand(direction: Direction, grow: boolean): Promise<string | null> {
   const [windowResult, spaceWindowsResult, spaceResult] = await Promise.all([
@@ -96,27 +81,39 @@ async function getResizeCommand(direction: Direction, grow: boolean): Promise<st
     return null;
   }
 
-  if (!(await canResize(window, space)) ) {
+  if (!(await canResize(window, space))) {
     return null;
   }
 
-  const { axis, sign } = RESIZE_DIRECTIONS[direction];
+  const canGrow = await canFocus(direction);
 
-  const effectiveGrow = window.splitChild === "second_child" ? !grow : grow;
-  const amount = (effectiveGrow ? 1 : -1) * RESIZE_AMOUNT * sign;
+  console.log(direction, canGrow);
 
-  return `-m window --resize ${axis}:${axis === "left" || axis === "right" ? amount : 0}:${
-    axis === "top" || axis === "bottom" ? amount : 0
-  }`;
+  if (!canGrow) {
+    return null;
+  }
+
+  const resizeMap = {
+    [Direction.NORTH]: "top",
+    [Direction.SOUTH]: "bottom",
+    [Direction.EAST]: "right",
+    [Direction.WEST]: "left",
+  };
+
+  const resizeAmount = grow ? RESIZE_AMOUNT : -RESIZE_AMOUNT;
+
+  const command = `-m window --resize ${resizeMap[direction]}:${resizeAmount}:0`;
+  console.log(command);
+  return command;
 }
 
 export const getResizeCommands = {
   vertical: {
-    grow: () => getResizeCommand(Direction.SOUTH, true) || getResizeCommand(Direction.NORTH, true),
-    shrink: () => getResizeCommand(Direction.SOUTH, false) || getResizeCommand(Direction.NORTH, false),
+    grow: async () => (await getResizeCommand(Direction.SOUTH, true)) || (await getResizeCommand(Direction.NORTH, true)),
+    shrink: async () => (await getResizeCommand(Direction.SOUTH, false)) || (await getResizeCommand(Direction.NORTH, false)),
   },
   horizontal: {
-    grow: () => getResizeCommand(Direction.EAST, true) || getResizeCommand(Direction.WEST, true),
-    shrink: () => getResizeCommand(Direction.EAST, false) || getResizeCommand(Direction.WEST, false),
+    grow: async () => (await getResizeCommand(Direction.EAST, true)) || (await getResizeCommand(Direction.WEST, true)),
+    shrink: async () => (await getResizeCommand(Direction.EAST, false)) || (await getResizeCommand(Direction.WEST, false)),
   },
 };
