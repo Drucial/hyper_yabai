@@ -9,6 +9,14 @@ export async function getSpaceWindows(): Promise<YabaiQueryResult<YabaiWindow[]>
   return handleYabaiQuery<YabaiWindow[]>("-m query --windows --space");
 }
 
+export async function getActiveSpaceWindows(): Promise<YabaiQueryResult<YabaiWindow[]>> {
+  const windows = await getSpaceWindows();
+  if (!windows.data) return windows;
+
+  const activeWindows = windows.data.filter(w => w.canResize && w.canMove) as YabaiWindow[];
+  return { data: activeWindows, error: windows.error };
+}
+
 export async function getSpaces(): Promise<YabaiQueryResult<YabaiSpace[]>> {
   return handleYabaiQuery<YabaiSpace[]>("-m query --spaces");
 }

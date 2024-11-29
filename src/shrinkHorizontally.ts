@@ -1,9 +1,9 @@
-import { getHorizontalShrinkCommand } from "./helpers/window";
+import { getResizeCommands } from "./helpers/window";
 import { executeYabaiCommand } from "./utils/commandRunner";
 import { MessageType, showYabaiMessage } from "./utils/notifications";
 
 export default async () => {
-  const command = await getHorizontalShrinkCommand();
+  const command = await getResizeCommands.horizontal.shrink();
 
   if (!command) {
     showYabaiMessage({
